@@ -1,0 +1,91 @@
+{
+  "model": "FLUX.2 [klein] 4B (distilled), 4 steps, CFG 1, euler — via valkyrie-mom-mcp generate_artwork",
+  "style": "Dark painterly illustration in the style of a 1930s Mansions of Madness board game card, polar palette of ice blue, slate grey and bone white with touches of amber lamplight, deep shadows, vast scale, eerie atmosphere, no text, no letters, no watermark.",
+  "images": [
+    {
+      "file": "img/Intro.jpg",
+      "preset": "cover",
+      "seed": 1931,
+      "use": "Scenario cover and intro cutscene",
+      "prompt": "A tiny single-engine 1930s expedition monoplane flying toward a colossal range of black, snowless mountains rising from the Antarctic ice plateau, peaks higher than the Himalayas, strange regular cube-shaped formations and cave mouths on the summits, low midnight sun behind the range, wind-blown ice haze"
+    },
+    {
+      "file": "img/RadioSlip.jpg",
+      "preset": "handout",
+      "seed": 22,
+      "use": "McTighe's radio slips (prologue)",
+      "prompt": "Close-up of a sheet of yellowed notepaper covered in dense pencil shorthand scribbles, lying on a wooden radio operator's desk beside bakelite headphones and a brass short-wave receiver with glowing valves, cold light from a ship's porthole"
+    },
+    {
+      "file": "img/Danforth.jpg",
+      "preset": "monster",
+      "seed": 7,
+      "use": "Danforth portrait (clickable, lower left)",
+      "prompt": "Portrait of a young 1930s graduate student on a polar expedition, thin face, round wire spectacles rimed with frost, fur-lined hood and heavy parka, pale and sleepless, eyes wide with a scholar's dread, holding a small leather notebook"
+    },
+    {
+      "file": "img/LakeSketch.jpg",
+      "preset": "handout",
+      "seed": 14,
+      "use": "Lake's Log inspection handout",
+      "prompt": "A naturalist's field notebook page with a careful pencil and ink anatomical drawing of a barrel-shaped creature with five vertical ridges, folded membranous fan wings, crinoid tentacles around its middle and a five-pointed starfish head with eyes on stalks, scientific cross-sections, stains and frost on the paper"
+    },
+    {
+      "file": "img/ElderThing.jpg",
+      "preset": "monster",
+      "seed": 55,
+      "use": "Elder Thing monster portrait",
+      "prompt": "A monstrous alien organism looming in a blizzard: a tall leathery organic torso shaped like a ribbed cask of grey flesh with five fleshy vertical ridges, wet and glistening like a sea creature, huge ragged membranous wings, clusters of branching pale grey tentacles fanning out from its middle, on top a thick fleshy yellow starfish-shaped head fringed with prismatic cilia and five long flexible stalks each ending in a glassy red eye, sea-cucumber and crinoid anatomy, visceral and scientific, a wrecked expedition camp behind it"
+    },
+    {
+      "file": "img/TokenStove.png",
+      "preset": "token",
+      "seed": 101,
+      "use": "Camp stove token",
+      "prompt": "Top-down view of a squat iron expedition camp stove with a glowing grate, half buried in snow, centered on a dark background"
+    },
+    {
+      "file": "img/TokenWireless.png",
+      "preset": "token",
+      "seed": 102,
+      "use": "Lake's wireless token",
+      "prompt": "Top-down view of a 1930s short-wave radio set in a wooden case with three large dials and a coiled aerial wire, dusted with snow, centered on a dark background"
+    },
+    {
+      "file": "img/TokenPlane.png",
+      "preset": "token",
+      "seed": 103,
+      "use": "Snowbound plane / plane token",
+      "prompt": "Top-down view of a 1930s single-engine expedition monoplane on skis, wings dusted with snow, parked on ice, centered on a dark background"
+    },
+    {
+      "file": "img/TokenMound.png",
+      "preset": "token",
+      "seed": 555,
+      "use": "Star mounds token",
+      "prompt": "Top-down view of a snow mound sculpted in the shape of a starfish with five thick points, a pentagonal five-pointed star of packed snow, small clusters of dark dots pressed along each of the five points, centered on dark frozen ground"
+    },
+    {
+      "file": "img/TokenDerrick.png",
+      "preset": "token",
+      "seed": 105,
+      "use": "Pabodie's drill token",
+      "prompt": "Top-down view of a collapsible wooden drilling derrick over a dark bore hole in ice and rock, with coiled cables and aluminium rods, centered on a dark background"
+    },
+    {
+      "file": "img/TokenSoapstone.png",
+      "preset": "token",
+      "seed": 555,
+      "use": "Star-shaped soapstones token",
+      "prompt": "Top-down view of a single smooth greenish soapstone carved in the shape of a starfish with five thick points, a pentagonal five-pointed star, small clusters of tiny drilled dots in groups of one to five along each point, lying on dark limestone"
+    },
+    {
+      "file": "img/TokenSpecimen.png",
+      "preset": "token",
+      "seed": 107,
+      "use": "Frozen ninth specimen token",
+      "prompt": "Top-down view of a frozen leathery grey alien body shaped like a ribbed cask of flesh with folded fan-like membranous wings and a curled yellow starfish head, lying half under a torn frosted tarpaulin, ice crystals melting into beads of water, centered on a dark background"
+    }
+  ],
+  "notes": "FLUX miscounts rays and points: ask for 'a starfish with five thick points' rather than lines of dots in a star."
+}

@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>At the Mountains of Madness storyline</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #16161c; color: #e8e6e1; font: 15px/1.5 system-ui, sans-serif; }
+  header { padding: 20px 24px 8px; } h1 { margin: 0; font-size: 22px; } p { margin: 4px 0; color: #a9a6a0; }
+  .chart { overflow: auto; padding: 16px 24px; border-top: 1px solid #2c2c36; border-bottom: 1px solid #2c2c36; }
+  pre { margin: 0; padding: 16px 24px; white-space: pre-wrap; font: 13px/1.45 ui-monospace, Menlo, monospace; }
+</style></head>
+<body>
+<header><h1>At the Mountains of Madness</h1><p>Storyline: 152 components, 252 connections. Solid arrows are buttons; dotted arrows are board items, inspection and monster events.</p></header>
+<div class="chart"><pre class="mermaid">
+flowchart TD
+  root_EventStart(("Game start")) --&gt; EventStart
+  root_EventHudAfterTurn(("Trigger EndInvestigatorTurn")) --&gt; EventHudAfterTurn
+  root_EventEndRoundReset(("Trigger EndRound")) --&gt; EventEndRoundReset
+  root_EventDefeatEliminated(("Trigger Eliminated")) --&gt; EventDefeatEliminated
+  root_EventThaw(("Trigger EndRound")) --&gt; EventThaw
+  root_EventMythos(("Trigger Mythos")) --&gt; EventMythos
+  EventStart("EventStart")
+  UIIntroButton&gt;"UIIntroButton&lt;br/&gt;&lt;small&gt;Read the radio log&lt;/small&gt;"]
+  EventRadio1["EventRadio1&lt;br/&gt;&lt;small&gt;McTighe's shorthand, written out fair. Lake's fi&lt;/small&gt;"]
+  EventRadio2["EventRadio2&lt;br/&gt;&lt;small&gt;'11:30 P.M. Attention, Dyer, Pabodie, Douglas. M&lt;/small&gt;"]
+  EventRadio3["EventRadio3&lt;br/&gt;&lt;small&gt;'Job now to get fourteen huge specimens to camp.&lt;/small&gt;"]
+  EventSilence["EventSilence&lt;br/&gt;&lt;small&gt;No word came at the agreed hour, nor the next. B&lt;/small&gt;"]
+  EventCluesSmallParty["EventCluesSmallParty&lt;br/&gt;&lt;i&gt;if #heroes=2&lt;/i&gt;&lt;br/&gt;&lt;small&gt;McTighe presses a flask of whiskey on you at the&lt;/small&gt;"]
+  EventAct1Setup["EventAct1Setup&lt;br/&gt;&lt;small&gt;The plane skids to a halt on hard-packed snow be&lt;/small&gt;"]
+  EventAct1Begin("EventAct1Begin")
+  EventHudOn("EventHudOn")
+  EventHud("EventHud")
+  EventHudShow("EventHudShow&lt;br/&gt;&lt;i&gt;if hudOn==1&lt;/i&gt;")
+  UIHud&gt;"UIHud&lt;br/&gt;&lt;small&gt;EXPOSURE Cold / 10 PETROL Fuel UNDERSTANDING Und&lt;/small&gt;"]
+  EventPrimus["EventPrimus&lt;br/&gt;&lt;small&gt;The primus stove hisses into a blue flame. Light&lt;/small&gt;"]
+  EventPrimusBurn["EventPrimusBurn&lt;br/&gt;&lt;small&gt;Hands held to the flame, the party feels the blo&lt;/small&gt;"]
+  EventColdSettle("EventColdSettle")
+  EventColdClampHigh("EventColdClampHigh&lt;br/&gt;&lt;i&gt;if Cold10&lt;/i&gt;")
+  EventColdClampLow("EventColdClampLow&lt;br/&gt;&lt;i&gt;if Cold0&lt;/i&gt;")
+  UIDanforth&gt;"UIDanforth&lt;br/&gt;&lt;small&gt;Ask Danforth&lt;/small&gt;"]
+  EventDanforth("EventDanforth")
+  EventDanforthBroken["EventDanforthBroken&lt;br/&gt;&lt;i&gt;if Nerve=0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Danforth does not look up. He is drawing the sam&lt;/small&gt;"]
+  EventDanforthResting["EventDanforthResting&lt;br/&gt;&lt;i&gt;if danforthAsked==1&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Danforth is still turning over your last questio&lt;/small&gt;"]
+  EventDanforthA1Specimen["EventDanforthA1Specimen&lt;br/&gt;&lt;i&gt;if danforthAsked==0 AND Act==1 AND specPlaced==1 AND specDone==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;'The ninth one. Lake said the tissue was not dea&lt;/small&gt;"]
+  EventDanforthA1Tracks["EventDanforthA1Tracks&lt;br/&gt;&lt;i&gt;if danforthAsked==0 AND Act==1 AND tracksFound==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;'Whoever took the sledges went somewhere. The wi&lt;/small&gt;"]
+  EventDanforthA1Drift["EventDanforthA1Drift&lt;br/&gt;&lt;i&gt;if danforthAsked==0 AND Act==1 AND hangarSeen==1 AND planeReady==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;'The sledge is wedged behind the small crates. S&lt;/small&gt;"]
+  EventDanforthA1Wireless["EventDanforthA1Wireless&lt;br/&gt;&lt;i&gt;if danforthAsked==0 AND Act==1 AND wirelessSeen==1 AND wirelessSolved==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;'McTighe's slips: band four, dial two. And Lake &lt;/small&gt;"]
+  EventDanforthIdle["EventDanforthIdle&lt;br/&gt;&lt;small&gt;I don't know,' Danforth admits, pushing his spec&lt;/small&gt;"]
+  TokenStove&gt;"TokenStove&lt;br/&gt;&lt;small&gt;Lake's big camp stove, knocked over but sound. G&lt;/small&gt;"]
+  EventStoveWarm["EventStoveWarm&lt;br/&gt;&lt;small&gt;Stiff fingers fumble with frozen matches until t&lt;/small&gt;"]
+  TokenWreckage&gt;"TokenWreckage&lt;br/&gt;&lt;small&gt;Wind-scattered wreckage: canvas, crates, instrum&lt;/small&gt;"]
+  EventSiftDraw("EventSiftDraw")
+  EventSiftPetrol["EventSiftPetrol&lt;br/&gt;&lt;i&gt;if siftPetrol==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Under a collapsed tent, a two-gallon can of petr&lt;/small&gt;"]
+  EventSiftCheck("EventSiftCheck")
+  EventSiftExhausted["EventSiftExhausted&lt;br/&gt;&lt;i&gt;if siftCount=8&lt;/i&gt;&lt;br/&gt;&lt;small&gt;There is nothing left in the wreckage but snow.&lt;/small&gt;"]
+  EventSiftFurs["EventSiftFurs&lt;br/&gt;&lt;i&gt;if siftFurs==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;A bale of spare fur suits, stiff with frost but &lt;/small&gt;"]
+  EventSiftDynamite["EventSiftDynamite&lt;br/&gt;&lt;i&gt;if siftDynamite==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Pabodie's blasting kit, still sealed in oilcloth&lt;/small&gt;"]
+  EventSiftBlots["EventSiftBlots&lt;br/&gt;&lt;i&gt;if siftBlots==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Sheets of Lake's notepaper, spattered with ink —&lt;/small&gt;"]
+  EventSiftDog["EventSiftDog&lt;br/&gt;&lt;i&gt;if siftDog==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Half-buried in a drift: one of the huskies. Its &lt;/small&gt;"]
+  EventSiftEngine["EventSiftEngine&lt;br/&gt;&lt;i&gt;if siftEngine==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;A plane's heater lies in pieces on a tarpaulin —&lt;/small&gt;"]
+  EventSiftBooks["EventSiftBooks&lt;br/&gt;&lt;i&gt;if siftBooks==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Lake's textbooks, the illustrated ones, are miss&lt;/small&gt;"]
+  EventSiftBooksPass("EventSiftBooksPass")
+  EventSiftPlates["EventSiftPlates&lt;br/&gt;&lt;i&gt;if siftPlates==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;A tin of exposed photographic plates, Lake's own&lt;/small&gt;"]
+  TokenWireless&gt;"TokenWireless&lt;br/&gt;&lt;small&gt;Lake's short-wave set, blown off its crate but i&lt;/small&gt;"]
+  PuzzleWireless{{"PuzzleWireless"}}
+  EventWirelessSolved["EventWirelessSolved&lt;br/&gt;&lt;small&gt;Static, then a voice: McTighe, faint as a ghost.&lt;/small&gt;"]
+  TokenExpTent&gt;"TokenExpTent&lt;br/&gt;&lt;small&gt;West of the stove, a larger tent slumps under it&lt;/small&gt;"]
+  EventTentReveal["EventTentReveal&lt;br/&gt;&lt;small&gt;Place TileTent. The smell is the first thing: ch&lt;/small&gt;"]
+  EventSpecimenAppearsTent("EventSpecimenAppearsTent&lt;br/&gt;&lt;i&gt;if specLoc==3&lt;/i&gt;")
+  TokenSpecimenTent&gt;"TokenSpecimenTent&lt;br/&gt;&lt;small&gt;Under a frozen tarpaulin: a ninth specimen. It i&lt;/small&gt;"]
+  EventSpecimenStudy["EventSpecimenStudy&lt;br/&gt;&lt;small&gt;Test  lore .&lt;/small&gt;"]
+  EventSpecimenStudyPass["EventSpecimenStudyPass&lt;br/&gt;&lt;small&gt;The tissue gives under your thumb like something&lt;/small&gt;"]
+  EventSpecimenStudyFail["EventSpecimenStudyFail&lt;br/&gt;&lt;small&gt;One of the eye-stalks twitches. You are almost s&lt;/small&gt;"]
+  EventPhotoSpecimenTent["EventPhotoSpecimenTent&lt;br/&gt;&lt;small&gt;Five ridges, folded wings, the starfish head tuc&lt;/small&gt;"]
+  EventSpecimenBurn["EventSpecimenBurn&lt;br/&gt;&lt;small&gt;Petrol, a match. The flame takes slowly on the l&lt;/small&gt;"]
+  TokenLakeTable&gt;"TokenLakeTable&lt;br/&gt;&lt;small&gt;Lake's dissecting table. One specimen was laid o&lt;/small&gt;"]
+  EventLakeNotebook["EventLakeNotebook&lt;br/&gt;&lt;small&gt;The last pages are Lake's dissection notes: tiss&lt;/small&gt;"]
+  EventLakeNotebookPass["EventLakeNotebookPass&lt;br/&gt;&lt;small&gt;You understand what you are looking at, and wish&lt;/small&gt;"]
+  EventLakeNotebookFail["EventLakeNotebookFail&lt;br/&gt;&lt;small&gt;The drawings swim before your eyes. Suffer 1 hor&lt;/small&gt;"]
+  QItemLakesLog&gt;"QItemLakesLog"]
+  EventReadLakesLog["EventReadLakesLog&lt;br/&gt;&lt;small&gt;Lake's field sketch: a barrel-shaped body, five &lt;/small&gt;"]
+  EventHideLakeSketch("EventHideLakeSketch")
+  TokenSearchTent&gt;"TokenSearchTent&lt;br/&gt;&lt;small&gt;Lake's surgical chest, half under a fallen tent &lt;/small&gt;"]
+  EventSearchTent["EventSearchTent&lt;br/&gt;&lt;small&gt;Among the instruments, something useful. Gain th&lt;/small&gt;"]
+  TokenExpHangar&gt;"TokenExpHangar&lt;br/&gt;&lt;small&gt;East stands the snow-block shelter Atwood design&lt;/small&gt;"]
+  EventHangarReveal["EventHangarReveal&lt;br/&gt;&lt;small&gt;Place TileHangar. Lake's second plane is buried &lt;/small&gt;"]
+  EventSpecimenAppearsHangar("EventSpecimenAppearsHangar&lt;br/&gt;&lt;i&gt;if specLoc==2&lt;/i&gt;")
+  TokenSpecimenHangar&gt;"TokenSpecimenHangar&lt;br/&gt;&lt;small&gt;Under a frozen tarpaulin: a ninth specimen. It i&lt;/small&gt;"]
+  EventPhotoSpecimenHangar["EventPhotoSpecimenHangar&lt;br/&gt;&lt;small&gt;Five ridges, folded wings, the starfish head tuc&lt;/small&gt;"]
+  TokenDrift&gt;"TokenDrift&lt;br/&gt;&lt;small&gt;The plane is your way over the range — and home.&lt;/small&gt;"]
+  PuzzleDriftLarge{{"PuzzleDriftLarge&lt;br/&gt;&lt;i&gt;if #heroes=4&lt;/i&gt;"}}
+  EventDriftCleared["EventDriftCleared&lt;br/&gt;&lt;small&gt;The plane rocks free. The mechanic checks the st&lt;/small&gt;"]
+  TokenPlane&gt;"TokenPlane&lt;br/&gt;&lt;small&gt;The plane waits, engine warm. West lies the rang&lt;/small&gt;"]
+  EventBoardReady["EventBoardReady&lt;br/&gt;&lt;i&gt;if tracksFound==1&lt;/i&gt;&lt;br/&gt;&lt;small&gt;The mechanic swings the propeller. All investiga&lt;/small&gt;"]
+  EventAct1End(["EventAct1End&lt;br/&gt;&lt;small&gt;End of Act I (preview build). The plane lifts of&lt;/small&gt;"])
+  EventBoardNoTracks["EventBoardNoTracks&lt;br/&gt;&lt;small&gt;Fly where? Someone took three sledges, Gedney an&lt;/small&gt;"]
+  PuzzleDriftSmall{{"PuzzleDriftSmall"}}
+  EventDriftBlast["EventDriftBlast&lt;br/&gt;&lt;small&gt;The charge goes off with a flat crack that rolls&lt;/small&gt;"]
+  TokenSearchHangar&gt;"TokenSearchHangar&lt;br/&gt;&lt;small&gt;A locker of emergency stores.&lt;/small&gt;"]
+  EventSearchHangar["EventSearchHangar&lt;br/&gt;&lt;small&gt;A Very pistol and a box of flares. Gain the Flar&lt;/small&gt;"]
+  TokenExpKennel&gt;"TokenExpKennel&lt;br/&gt;&lt;small&gt;South, the dogs' corral: a wall of snow blocks, &lt;/small&gt;"]
+  EventKennelReveal["EventKennelReveal&lt;br/&gt;&lt;small&gt;Place TileKennel.&lt;/small&gt;"]
+  TokenKennel&gt;"TokenKennel&lt;br/&gt;&lt;small&gt;The dogs fought something here. Most of them los&lt;/small&gt;"]
+  EventKennel["EventKennel&lt;br/&gt;&lt;small&gt;The huskies lie where they fell, some torn, some&lt;/small&gt;"]
+  EventKennelDog["EventKennelDog&lt;br/&gt;&lt;i&gt;if dogHere==1&lt;/i&gt;&lt;br/&gt;&lt;small&gt;A whimper, from under an overturned sledge. One &lt;/small&gt;"]
+  EventKennelNoDog["EventKennelNoDog&lt;br/&gt;&lt;small&gt;You count them twice. One dog is missing — and s&lt;/small&gt;"]
+  TokenExpMounds&gt;"TokenExpMounds&lt;br/&gt;&lt;small&gt;Beyond the corral the snow rises in regular shap&lt;/small&gt;"]
+  EventMoundsReveal["EventMoundsReveal&lt;br/&gt;&lt;small&gt;Place TileMounds. Six mounds of packed snow, nin&lt;/small&gt;"]
+  TokenMounds&gt;"TokenMounds&lt;br/&gt;&lt;small&gt;The six star-patterned mounds. Graves, if you le&lt;/small&gt;"]
+  EventMoundsDig["EventMoundsDig&lt;br/&gt;&lt;small&gt;The snow is packed hard as brick. Test  strength&lt;/small&gt;"]
+  EventMoundsDug["EventMoundsDug&lt;br/&gt;&lt;small&gt;One of the six damaged specimens lies inside, la&lt;/small&gt;"]
+  EventMoundsHard["EventMoundsHard&lt;br/&gt;&lt;small&gt;Your spade rings off it. You can try again with &lt;/small&gt;"]
+  EventPhotoMounds["EventPhotoMounds&lt;br/&gt;&lt;small&gt;Six graves in the snow, patterned with dots. The&lt;/small&gt;"]
+  TokenTracks&gt;"TokenTracks&lt;br/&gt;&lt;small&gt;The snow west of the mounds is scoured, but here&lt;/small&gt;"]
+  EventTracks["EventTracks&lt;br/&gt;&lt;small&gt;Drifting snow has half filled whatever was here.&lt;/small&gt;"]
+  EventTracksFound["EventTracksFound&lt;br/&gt;&lt;small&gt;Sledge runners, three sets of them, heading west&lt;/small&gt;"]
+  EventTracksLost["EventTracksLost&lt;br/&gt;&lt;small&gt;Wind-ripples, nothing more. Look again with anot&lt;/small&gt;"]
+  TokenExpBore&gt;"TokenExpBore&lt;br/&gt;&lt;small&gt;East, the derrick of Pabodie's drill stands over&lt;/small&gt;"]
+  EventBoreReveal["EventBoreReveal&lt;br/&gt;&lt;small&gt;Place TileBore. A ladder of lashed rods goes dow&lt;/small&gt;"]
+  TokenBore&gt;"TokenBore&lt;br/&gt;&lt;small&gt;The triangular prints Lake radioed about, presse&lt;/small&gt;"]
+  EventPhotoPrints["EventPhotoPrints&lt;br/&gt;&lt;small&gt;The flashpowder goes off; for an instant the pri&lt;/small&gt;"]
+  TokenExpCavern&gt;"TokenExpCavern&lt;br/&gt;&lt;small&gt;The passage opens into the cavern where Lake fou&lt;/small&gt;"]
+  EventCavernReveal["EventCavernReveal&lt;br/&gt;&lt;small&gt;Place TileCavern. Stalactites hacked away; niche&lt;/small&gt;"]
+  EventSpecimenAppearsCavern("EventSpecimenAppearsCavern&lt;br/&gt;&lt;i&gt;if specLoc==1&lt;/i&gt;")
+  TokenSpecimenCavern&gt;"TokenSpecimenCavern&lt;br/&gt;&lt;small&gt;Under a frozen tarpaulin: a ninth specimen. It i&lt;/small&gt;"]
+  EventPhotoSpecimenCavern["EventPhotoSpecimenCavern&lt;br/&gt;&lt;small&gt;Five ridges, folded wings, the starfish head tuc&lt;/small&gt;"]
+  TokenSoapstones&gt;"TokenSoapstones&lt;br/&gt;&lt;small&gt;Green soapstones, star-shaped, set in the niches&lt;/small&gt;"]
+  EventSoapstones["EventSoapstones&lt;br/&gt;&lt;small&gt;Test  lore .&lt;/small&gt;"]
+  EventSoapstonesPass["EventSoapstonesPass&lt;br/&gt;&lt;small&gt;The groups repeat. Ones, twos, up to fives, neve&lt;/small&gt;"]
+  EventSoapstonesFail["EventSoapstonesFail&lt;br/&gt;&lt;small&gt;The patterns crawl when you stare at them. Suffe&lt;/small&gt;"]
+  EventHudAfterTurn("EventHudAfterTurn")
+  EventEndRoundReset("EventEndRoundReset")
+  EventDefeatEliminated(["EventDefeatEliminated&lt;br/&gt;&lt;small&gt;One of the party falls and does not rise. There &lt;/small&gt;"])
+  EventThaw("EventThaw&lt;br/&gt;&lt;i&gt;if specPlaced==1 AND specDone==0 AND #roundspecRound AND #round=3&lt;/i&gt;")
+  EventThawCavern["EventThawCavern&lt;br/&gt;&lt;i&gt;if specLoc==1&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Water sheets from the ridges of the ninth specim&lt;/small&gt;"]
+  SpawnETCavern[/"SpawnETCavern"/]
+  EventETActivation("EventETActivation")
+  EventETCurious["EventETCurious&lt;br/&gt;&lt;small&gt;The Elder Thing glides 1 space toward the neares&lt;/small&gt;"]
+  EventETExamine["EventETExamine&lt;br/&gt;&lt;small&gt;Twenty-five tendrils explore your coat, your fac&lt;/small&gt;"]
+  EventETWarmth["EventETWarmth&lt;br/&gt;&lt;small&gt;The Elder Thing moves 2 spaces toward TileCamp, &lt;/small&gt;"]
+  EventETStove["EventETStove&lt;br/&gt;&lt;small&gt;It folds itself over the stove as if it were a h&lt;/small&gt;"]
+  EventETWounded["EventETWounded&lt;br/&gt;&lt;small&gt;The Elder Thing's wings snap wide.&lt;/small&gt;"]
+  EventETLash["EventETLash&lt;br/&gt;&lt;small&gt;Cornered and hurt, it lashes out with five tough&lt;/small&gt;"]
+  EventETWest["EventETWest&lt;br/&gt;&lt;i&gt;if etSpared==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;The Elder Thing turns toward the west — toward t&lt;/small&gt;"]
+  EventETSpared["EventETSpared&lt;br/&gt;&lt;small&gt;You step aside. It glides past you, close enough&lt;/small&gt;"]
+  EventThawHangar["EventThawHangar&lt;br/&gt;&lt;i&gt;if specLoc==2&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Water sheets from the ridges of the ninth specim&lt;/small&gt;"]
+  SpawnETHangar[/"SpawnETHangar"/]
+  EventThawTent["EventThawTent&lt;br/&gt;&lt;i&gt;if specLoc==3&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Water sheets from the ridges of the ninth specim&lt;/small&gt;"]
+  SpawnETTent[/"SpawnETTent"/]
+  EventMythos("EventMythos")
+  EventMythosDeck3("EventMythosDeck3&lt;br/&gt;&lt;i&gt;if Act==3&lt;/i&gt;")
+  EventMythosDeck2("EventMythosDeck2&lt;br/&gt;&lt;i&gt;if Act==2&lt;/i&gt;")
+  EventMythosDeck1("EventMythosDeck1&lt;br/&gt;&lt;i&gt;if Act==1&lt;/i&gt;")
+  EventGaleGust["EventGaleGust&lt;br/&gt;&lt;i&gt;if seenGaleGust==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;The wind screams down off the range and through &lt;/small&gt;"]
+  EventColdEffects("EventColdEffects")
+  EventColdClampHigh2("EventColdClampHigh2&lt;br/&gt;&lt;i&gt;if Cold10&lt;/i&gt;")
+  EventCold10["EventCold10&lt;br/&gt;&lt;i&gt;if Cold=10&lt;/i&gt;&lt;br/&gt;&lt;small&gt;FREEZING. Breath crystallises on beards and scar&lt;/small&gt;"]
+  EventMythosDone("EventMythosDone")
+  EventCold8["EventCold8&lt;br/&gt;&lt;i&gt;if Cold=8&lt;/i&gt;&lt;br/&gt;&lt;small&gt;FROSTBITE. White patches bloom on cheeks and fin&lt;/small&gt;"]
+  EventCold5["EventCold5&lt;br/&gt;&lt;i&gt;if Cold=5&lt;/i&gt;&lt;br/&gt;&lt;small&gt;NUMB. The cold has found its way inside the furs&lt;/small&gt;"]
+  EventGaleBlind["EventGaleBlind&lt;br/&gt;&lt;i&gt;if seenGaleBlind==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;A wall of blown snow rolls across the camp; for &lt;/small&gt;"]
+  EventGaleHowl["EventGaleHowl&lt;br/&gt;&lt;i&gt;if seenGaleHowl==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Somewhere out on the plateau a dog is howling. E&lt;/small&gt;"]
+  EventGaleStatic["EventGaleStatic&lt;br/&gt;&lt;i&gt;if seenGaleStatic==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;The wireless — or what is left of it — crackles &lt;/small&gt;"]
+  EventGaleMirage["EventGaleMirage&lt;br/&gt;&lt;i&gt;if seenGaleMirage==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;Above the western peaks the air shimmers into to&lt;/small&gt;"]
+  EventGaleCanvas["EventGaleCanvas&lt;br/&gt;&lt;i&gt;if seenGaleCanvas==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;A gust tears a sheet of frozen canvas loose and &lt;/small&gt;"]
+  EventGaleFrost["EventGaleFrost&lt;br/&gt;&lt;i&gt;if seenGaleFrost==0 AND Fuel=1&lt;/i&gt;&lt;br/&gt;&lt;small&gt;The petrol has begun to jell in the cans, and on&lt;/small&gt;"]
+  EventGaleDrift["EventGaleDrift&lt;br/&gt;&lt;i&gt;if seenGaleDrift==0 AND tracksFound==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;The wind is filling in everything that was writt&lt;/small&gt;"]
+  EventGalePiping["EventGalePiping&lt;br/&gt;&lt;i&gt;if seenGalePiping==0&lt;/i&gt;&lt;br/&gt;&lt;small&gt;For a moment, between gusts, you hear it — a thi&lt;/small&gt;"]
+  EventGaleLull["EventGaleLull&lt;br/&gt;&lt;small&gt;The gale drops. For a few breaths there is absol&lt;/small&gt;"]
+  EventETDefeatedCavern("EventETDefeatedCavern")
+  EventETDies["EventETDies&lt;br/&gt;&lt;small&gt;It dies slowly, folding in on itself, and at the&lt;/small&gt;"]
+  EventETDefeatedHangar("EventETDefeatedHangar")
+  EventETDefeatedTent("EventETDefeatedTent")
+  EventStart -.-&gt;|"places"| UIIntroButton
+  UIIntroButton --&gt;|"Read the radio log"| EventRadio1
+  EventRadio1 --&gt;|"Next slip"| EventRadio2
+  EventRadio2 --&gt;|"Next slip"| EventRadio3
+  EventRadio3 --&gt;|"Continue"| EventSilence
+  EventSilence --&gt;|"Fly to Lake's camp"| EventCluesSmallParty
+  EventCluesSmallParty --&gt;|"Continue"| EventAct1Setup
+  EventAct1Setup --&gt;|"Step out into the wind"| EventAct1Begin
+  EventAct1Begin --&gt; EventHudOn
+  EventHudOn --&gt; EventHud
+  EventHud --&gt; EventHudShow
+  EventHudShow -.-&gt;|"places"| UIHud
+  UIHud --&gt;|"EXPOSURE Cold / 10 PETROL Fuel UNDERSTA…"| EventPrimus
+  EventPrimus --&gt;|"Burn a can of petrol (Exposure −3)"| EventPrimusBurn
+  EventPrimusBurn --&gt;|"Continue"| EventColdSettle
+  EventColdSettle --&gt; EventColdClampHigh
+  EventColdClampHigh --&gt; EventHud
+  EventColdSettle --&gt; EventColdClampLow
+  EventColdClampLow --&gt; EventHud
+  EventColdSettle --&gt; EventHud
+  EventPrimus --&gt;|"Save the petrol"| EventHud
+  EventHudShow -.-&gt;|"places"| UIDanforth
+  UIDanforth --&gt;|"Ask Danforth"| EventDanforth
+  EventDanforth --&gt; EventDanforthBroken
+  EventDanforthBroken --&gt;|"Continue"| EventHud
+  EventDanforth --&gt; EventDanforthResting
+  EventDanforthResting --&gt;|"Continue"| EventHud
+  EventDanforth --&gt; EventDanforthA1Specimen
+  EventDanforthA1Specimen --&gt;|"Continue"| EventHud
+  EventDanforth --&gt; EventDanforthA1Tracks
+  EventDanforthA1Tracks --&gt;|"Continue"| EventHud
+  EventDanforth --&gt; EventDanforthA1Drift
+  EventDanforthA1Drift --&gt;|"Continue"| EventHud
+  EventDanforth --&gt; EventDanforthA1Wireless
+  EventDanforthA1Wireless --&gt;|"Continue"| EventHud
+  EventDanforth --&gt; EventDanforthIdle
+  EventDanforthIdle --&gt;|"Continue"| EventHud
+  EventAct1Setup -.-&gt;|"places"| TokenStove
+  TokenStove --&gt;|"Warm up (Exposure −1)"| EventStoveWarm
+  EventStoveWarm --&gt;|"Continue"| EventColdSettle
+  TokenStove --&gt;|"Feed it petrol (−1 petrol, Exposure −3)"| EventPrimusBurn
+  TokenStove --&gt;|"Leave it"| EventHud
+  EventAct1Setup -.-&gt;|"places"| TokenWreckage
+  TokenWreckage --&gt;|"Dig through the wreckage"| EventSiftDraw
+  EventSiftDraw --&gt; EventSiftPetrol
+  EventSiftPetrol --&gt;|"Continue"| EventSiftCheck
+  EventSiftCheck --&gt; EventSiftExhausted
+  EventSiftExhausted --&gt;|"Continue"| EventColdSettle
+  EventSiftCheck --&gt; EventColdSettle
+  EventSiftDraw --&gt; EventSiftFurs
+  EventSiftFurs --&gt;|"Continue"| EventSiftCheck
+  EventSiftDraw --&gt; EventSiftDynamite
+  EventSiftDynamite --&gt;|"Continue"| EventSiftCheck
+  EventSiftDraw --&gt; EventSiftBlots
+  EventSiftBlots --&gt;|"Continue"| EventSiftCheck
+  EventSiftDraw --&gt; EventSiftDog
+  EventSiftDog --&gt;|"Continue"| EventSiftCheck
+  EventSiftDraw --&gt; EventSiftEngine
+  EventSiftEngine --&gt;|"Continue"| EventSiftCheck
+  EventSiftDraw --&gt; EventSiftBooks
+  EventSiftBooks --&gt;|"Pass"| EventSiftBooksPass
+  EventSiftBooksPass --&gt; EventSiftCheck
+  EventSiftBooks --&gt;|"Fail"| EventSiftCheck
+  EventSiftDraw --&gt; EventSiftPlates
+  EventSiftPlates --&gt;|"Continue"| EventSiftCheck
+  TokenWreckage --&gt;|"Leave it"| EventHud
+  EventAct1Setup -.-&gt;|"places"| TokenWireless
+  TokenWireless --&gt;|"Work the dials"| PuzzleWireless
+  PuzzleWireless --&gt;|"Call the Arkham"| EventWirelessSolved
+  EventWirelessSolved --&gt;|"Continue"| EventHud
+  TokenWireless --&gt;|"Leave it"| EventHud
+  EventAct1Setup -.-&gt;|"places"| TokenExpTent
+  TokenExpTent --&gt;|"Duck inside"| EventTentReveal
+  EventTentReveal --&gt;|"Continue"| EventSpecimenAppearsTent
+  EventSpecimenAppearsTent --&gt; EventHud
+  EventSpecimenAppearsTent -.-&gt;|"places"| TokenSpecimenTent
+  TokenSpecimenTent --&gt;|"Study it"| EventSpecimenStudy
+  EventSpecimenStudy --&gt;|"Pass"| EventSpecimenStudyPass
+  EventSpecimenStudyPass --&gt;|"Continue"| EventHud
+  EventSpecimenStudy --&gt;|"Fail"| EventSpecimenStudyFail
+  EventSpecimenStudyFail --&gt;|"Continue"| EventHud
+  TokenSpecimenTent --&gt;|"Photograph it"| EventPhotoSpecimenTent
+  EventPhotoSpecimenTent --&gt;|"Continue"| EventHud
+  TokenSpecimenTent --&gt;|"Burn it (−1 petrol)"| EventSpecimenBurn
+  EventSpecimenBurn --&gt;|"Continue"| EventHud
+  TokenSpecimenTent --&gt;|"Leave it"| EventHud
+  EventTentReveal --&gt;|"Continue"| EventHud
+  EventTentReveal -.-&gt;|"places"| TokenLakeTable
+  TokenLakeTable --&gt;|"Read the notebook"| EventLakeNotebook
+  EventLakeNotebook --&gt;|"Pass"| EventLakeNotebookPass
+  EventLakeNotebookPass --&gt;|"Continue"| EventHud
+  EventLakeNotebook --&gt;|"Fail"| EventLakeNotebookFail
+  EventLakeNotebookFail --&gt;|"Continue"| EventHud
+  EventLakeNotebook -.-&gt;|"gives"| QItemLakesLog
+  QItemLakesLog -.-&gt;|"inspect"| EventReadLakesLog
+  EventReadLakesLog --&gt;|"Continue"| EventHideLakeSketch
+  TokenLakeTable --&gt;|"Leave it"| EventHud
+  EventTentReveal -.-&gt;|"places"| TokenSearchTent
+  TokenSearchTent --&gt;|"Search it"| EventSearchTent
+  EventSearchTent --&gt;|"Continue"| EventHud
+  EventAct1Setup -.-&gt;|"places"| TokenExpHangar
+  TokenExpHangar --&gt;|"Go to the hangar"| EventHangarReveal
+  EventHangarReveal --&gt;|"Continue"| EventSpecimenAppearsHangar
+  EventSpecimenAppearsHangar --&gt; EventHud
+  EventSpecimenAppearsHangar -.-&gt;|"places"| TokenSpecimenHangar
+  TokenSpecimenHangar --&gt;|"Study it"| EventSpecimenStudy
+  TokenSpecimenHangar --&gt;|"Photograph it"| EventPhotoSpecimenHangar
+  EventPhotoSpecimenHangar --&gt;|"Continue"| EventHud
+  TokenSpecimenHangar --&gt;|"Burn it (−1 petrol)"| EventSpecimenBurn
+  TokenSpecimenHangar --&gt;|"Leave it"| EventHud
+  EventHangarReveal --&gt;|"Continue"| EventHud
+  EventHangarReveal -.-&gt;|"places"| TokenDrift
+  TokenDrift --&gt;|"Dig it clear"| PuzzleDriftLarge
+  PuzzleDriftLarge --&gt;|"The plane is free"| EventDriftCleared
+  EventDriftCleared --&gt;|"Continue"| EventHud
+  EventDriftCleared -.-&gt;|"places"| TokenPlane
+  TokenPlane --&gt;|"Board the plane"| EventBoardReady
+  EventBoardReady --&gt;|"Take off"| EventAct1End
+  EventBoardReady --&gt;|"Wait"| EventHud
+  TokenPlane --&gt;|"Board the plane"| EventBoardNoTracks
+  EventBoardNoTracks --&gt;|"Continue"| EventHud
+  TokenPlane --&gt;|"Not yet"| EventHud
+  TokenDrift --&gt;|"Dig it clear"| PuzzleDriftSmall
+  PuzzleDriftSmall --&gt;|"The plane is free"| EventDriftCleared
+  TokenDrift --&gt;|"Blast it with dynamite"| EventDriftBlast
+  EventDriftBlast --&gt;|"Continue"| EventDriftCleared
+  TokenDrift --&gt;|"Leave it for now"| EventHud
+  EventHangarReveal -.-&gt;|"places"| TokenSearchHangar
+  TokenSearchHangar --&gt;|"Search it"| EventSearchHangar
+  EventSearchHangar --&gt;|"Continue"| EventHud
+  EventAct1Setup -.-&gt;|"places"| TokenExpKennel
+  TokenExpKennel --&gt;|"Go to the corral"| EventKennelReveal
+  EventKennelReveal --&gt;|"Continue"| EventHud
+  EventKennelReveal -.-&gt;|"places"| TokenKennel
+  TokenKennel --&gt;|"Look closer"| EventKennel
+  EventKennel --&gt;|"Continue"| EventKennelDog
+  EventKennelDog --&gt;|"Continue"| EventHud
+  EventKennel --&gt;|"Continue"| EventKennelNoDog
+  EventKennelNoDog --&gt;|"Continue"| EventHud
+  TokenKennel --&gt;|"Look away"| EventHud
+  EventKennelReveal -.-&gt;|"places"| TokenExpMounds
+  TokenExpMounds --&gt;|"Walk out to them"| EventMoundsReveal
+  EventMoundsReveal --&gt;|"Continue"| EventHud
+  EventMoundsReveal -.-&gt;|"places"| TokenMounds
+  TokenMounds --&gt;|"Dig one open"| EventMoundsDig
+  EventMoundsDig --&gt;|"Pass"| EventMoundsDug
+  EventMoundsDug --&gt;|"Continue"| EventHud
+  EventMoundsDig --&gt;|"Fail"| EventMoundsHard
+  EventMoundsHard --&gt;|"Continue"| EventHud
+  TokenMounds --&gt;|"Photograph it"| EventPhotoMounds
+  EventPhotoMounds --&gt;|"Continue"| EventHud
+  TokenMounds --&gt;|"Leave them"| EventHud
+  EventMoundsReveal -.-&gt;|"places"| TokenTracks
+  TokenTracks --&gt;|"Read the ground"| EventTracks
+  EventTracks --&gt;|"Pass"| EventTracksFound
+  EventTracksFound --&gt;|"Continue"| EventHud
+  EventTracks --&gt;|"Fail"| EventTracksLost
+  EventTracksLost --&gt;|"Continue"| EventHud
+  TokenTracks --&gt;|"Leave it"| EventHud
+  EventMoundsReveal -.-&gt;|"places"| TokenExpBore
+  TokenExpBore --&gt;|"Climb down"| EventBoreReveal
+  EventBoreReveal --&gt;|"Continue"| EventHud
+  EventBoreReveal -.-&gt;|"places"| TokenBore
+  TokenBore --&gt;|"Photograph it"| EventPhotoPrints
+  EventPhotoPrints --&gt;|"Continue"| EventHud
+  TokenBore --&gt;|"Leave them"| EventHud
+  EventBoreReveal -.-&gt;|"places"| TokenExpCavern
+  TokenExpCavern --&gt;|"Go in"| EventCavernReveal
+  EventCavernReveal --&gt;|"Continue"| EventSpecimenAppearsCavern
+  EventSpecimenAppearsCavern --&gt; EventHud
+  EventSpecimenAppearsCavern -.-&gt;|"places"| TokenSpecimenCavern
+  TokenSpecimenCavern --&gt;|"Study it"| EventSpecimenStudy
+  TokenSpecimenCavern --&gt;|"Photograph it"| EventPhotoSpecimenCavern
+  EventPhotoSpecimenCavern --&gt;|"Continue"| EventHud
+  TokenSpecimenCavern --&gt;|"Burn it (−1 petrol)"| EventSpecimenBurn
+  TokenSpecimenCavern --&gt;|"Leave it"| EventHud
+  EventCavernReveal --&gt;|"Continue"| EventHud
+  EventCavernReveal -.-&gt;|"places"| TokenSoapstones
+  TokenSoapstones --&gt;|"Study the dots"| EventSoapstones
+  EventSoapstones --&gt;|"Pass"| EventSoapstonesPass
+  EventSoapstonesPass --&gt;|"Continue"| EventHud
+  EventSoapstones --&gt;|"Fail"| EventSoapstonesFail
+  EventSoapstonesFail --&gt;|"Continue"| EventHud
+  TokenSoapstones --&gt;|"Leave them"| EventHud
+  EventSilence --&gt;|"Fly to Lake's camp"| EventAct1Setup
+  EventHudAfterTurn --&gt; EventHud
+  EventEndRoundReset --&gt; EventHud
+  EventThaw --&gt; EventThawCavern
+  EventThawCavern --&gt;|"Stand your ground"| SpawnETCavern
+  SpawnETCavern --&gt; EventHud
+  SpawnETCavern -.-&gt;|"each monster phase"| EventETActivation
+  EventETActivation --&gt; EventETCurious
+  EventETCurious --&gt;|"It reached an investigator"| EventETExamine
+  EventETActivation --&gt; EventETCurious
+  EventETActivation --&gt; EventETWarmth
+  EventETWarmth --&gt;|"It reached the camp"| EventETStove
+  EventETStove --&gt;|"Continue"| EventColdSettle
+  EventETActivation --&gt; EventETWounded
+  EventETWounded --&gt;|"It has been wounded"| EventETLash
+  EventETWounded --&gt;|"It is unharmed"| EventETCurious
+  EventETActivation --&gt; EventETWest
+  EventETWest --&gt;|"Let it go"| EventETSpared
+  EventETSpared --&gt;|"Continue"| EventHud
+  EventETWest --&gt;|"Stop it"| EventETLash
+  EventThaw --&gt; EventThawHangar
+  EventThawHangar --&gt;|"Stand your ground"| SpawnETHangar
+  SpawnETHangar --&gt; EventHud
+  SpawnETHangar -.-&gt;|"each monster phase"| EventETActivation
+  EventThaw --&gt; EventThawTent
+  EventThawTent --&gt;|"Stand your ground"| SpawnETTent
+  SpawnETTent --&gt; EventHud
+  SpawnETTent -.-&gt;|"each monster phase"| EventETActivation
+  EventMythos --&gt; EventMythosDeck3
+  EventMythos --&gt; EventMythosDeck2
+  EventMythos --&gt; EventMythosDeck1
+  EventMythosDeck1 --&gt; EventGaleGust
+  EventGaleGust --&gt;|"Continue"| EventColdEffects
+  EventColdEffects --&gt; EventColdClampHigh2
+  EventColdClampHigh2 --&gt; EventCold10
+  EventCold10 --&gt;|"Continue"| EventMythosDone
+  EventMythosDone --&gt; EventHud
+  EventColdEffects --&gt; EventCold10
+  EventColdEffects --&gt; EventCold8
+  EventCold8 --&gt;|"Continue"| EventMythosDone
+  EventColdEffects --&gt; EventCold5
+  EventCold5 --&gt;|"Continue"| EventMythosDone
+  EventColdEffects --&gt; EventMythosDone
+  EventMythosDeck1 --&gt; EventGaleBlind
+  EventGaleBlind --&gt;|"Continue"| EventColdEffects
+  EventMythosDeck1 --&gt; EventGaleHowl
+  EventGaleHowl --&gt;|"Continue"| EventColdEffects
+  EventMythosDeck1 --&gt; EventGaleStatic
+  EventGaleStatic --&gt;|"Continue"| EventColdEffects
+  EventMythosDeck1 --&gt; EventGaleMirage
+  EventGaleMirage --&gt;|"Continue"| EventColdEffects
+  EventMythosDeck1 --&gt; EventGaleCanvas
+  EventGaleCanvas --&gt;|"Continue"| EventColdEffects
+  EventMythosDeck1 --&gt; EventGaleFrost
+  EventGaleFrost --&gt;|"Continue"| EventColdEffects
+  EventMythosDeck1 --&gt; EventGaleDrift
+  EventGaleDrift --&gt;|"Continue"| EventColdEffects
+  EventMythosDeck1 --&gt; EventGalePiping
+  EventGalePiping --&gt;|"Continue"| EventColdEffects
+  EventMythosDeck1 --&gt; EventGaleLull
+  EventGaleLull --&gt;|"Continue"| EventColdEffects
+  SpawnETCavern -.-&gt;|"when defeated"| EventETDefeatedCavern
+  EventETDefeatedCavern --&gt; EventETDies
+  EventETDies --&gt;|"Continue"| EventHud
+  SpawnETHangar -.-&gt;|"when defeated"| EventETDefeatedHangar
+  EventETDefeatedHangar --&gt; EventETDies
+  SpawnETTent -.-&gt;|"when defeated"| EventETDefeatedTent
+  EventETDefeatedTent --&gt; EventETDies
+  classDef hidden fill:#2a2a33,stroke:#666,color:#bbb,stroke-dasharray:3 3
+  classDef ending fill:#4a1d1d,stroke:#d66,color:#fff
+  classDef puzzle fill:#1d3a4a,stroke:#6bd,color:#fff
+  classDef board fill:#3a341d,stroke:#db6,color:#fff
+  class EventStart,EventAct1Begin,EventHudOn,EventHud,EventHudShow,EventColdSettle,EventColdClampHigh,EventColdClampLow,EventDanforth,EventSiftDraw,EventSiftCheck,EventSiftBooksPass,EventSpecimenAppearsTent,EventHideLakeSketch,EventSpecimenAppearsHangar,EventSpecimenAppearsCavern,EventHudAfterTurn,EventEndRoundReset,EventThaw,EventETActivation,EventMythos,EventMythosDeck3,EventMythosDeck2,EventMythosDeck1,EventColdEffects,EventColdClampHigh2,EventMythosDone,EventETDefeatedCavern,EventETDefeatedHangar,EventETDefeatedTent hidden
+  class EventAct1End,EventDefeatEliminated ending
+  class PuzzleWireless,PuzzleDriftLarge,PuzzleDriftSmall puzzle
+  class UIIntroButton,UIHud,UIDanforth,TokenStove,TokenWreckage,TokenWireless,TokenExpTent,TokenSpecimenTent,TokenLakeTable,QItemLakesLog,TokenSearchTent,TokenExpHangar,TokenSpecimenHangar,TokenDrift,TokenPlane,TokenSearchHangar,TokenExpKennel,TokenKennel,TokenExpMounds,TokenMounds,TokenTracks,TokenExpBore,TokenBore,TokenExpCavern,TokenSpecimenCavern,TokenSoapstones board
+</pre></div>
+<pre>Storyline of "At the Mountains of Madness": 120 events, 252 connections
+Legend: ▶ dialog  · hidden event  ◆ puzzle  ☠ spawn/monster  ⊕ token  ▣ UI button  ✉ item  [button] → next  ↩ already shown above  ⟨effects⟩  ✦ END
+
+== Game start ==
+· EventStart ⟨Cold=1, Fuel=5, Understanding=0, Piping=0, Nerve=5, Photos=0, Mercy=1, Act=1, hudOn=0, danforthAsked=0, specLoc=#rand3, dogHere=#rand2, +UIIntroBG +UIIntroPicture +UIIntroText +UIIntroButtonFrame +UIIntroButton⟩
+(places) ▣ UIIntroButton "Read the radio log"
+[Read the radio log] ▶ EventRadio1 "McTighe's shorthand, written out fair. Lake's first message from the plateau: "…" ⟨+UIRadioSlip, −UIIntroBG −UIIntroPicture −UIIntroText −UIIntroButtonFrame −UIIntroButton⟩
+[Next slip] ▶ EventRadio2 ""11:30 P.M. Attention, Dyer, Pabodie, Douglas. Matter of highest — I might say…"
+[Next slip] ▶ EventRadio3 ""Job now to get fourteen huge specimens to camp. Got to dissect one of these th…"
+[Continue] ▶ EventSilence "No word came at the agreed hour, nor the next. By morning McTighe had tried eve…" ⟨−UIRadioSlip⟩
+  [Fly to Lake's camp] first that passes:
+    • ▶ EventCluesSmallParty if #heroes&lt;=2 "McTighe presses a flask of whiskey on you at the plane. "One more thing. Lake a…" ⟨+QItemWhiskey⟩
+      [Continue] ▶ EventAct1Setup "The plane skids to a halt on hard-packed snow beside what is left of Lake's cam…" ⟨+TileCamp +TokenInvestigators +TokenStove +TokenWreckage +TokenWireless +TokenExpTent +TokenExpHangar +TokenExpKennel⟩
+        [Step out into the wind] · EventAct1Begin ⟨−TokenInvestigators⟩
+        → · EventHudOn ⟨hudOn=1⟩
+        → · EventHud ⟨−UIHud −UIDanforth⟩
+        → · EventHudShow if hudOn==1 ⟨+UIHud +UIDanforth⟩
+          (places)
+            • ▣ UIHud "EXPOSURE Cold / 10 PETROL Fuel UNDERSTANDING Understanding DANFORTH'S NERVE Nerve Tap: li…"
+              [EXPOSURE Cold / 10 PETROL Fuel UNDERSTA…] ▶ EventPrimus "The primus stove hisses into a blue flame. Lighting it takes an action from the…"
+                [Burn a can of petrol (Exposure −3)] ▶ EventPrimusBurn "Hands held to the flame, the party feels the blood return to their fingers. Eve…" ⟨Fuel-=1, Cold-=3⟩
+                [Continue] · EventColdSettle
+                  → first that passes:
+                    • · EventColdClampHigh if Cold&gt;10 ⟨Cold=10⟩
+                      → ↩ EventHud
+                    • · EventColdClampLow if Cold&lt;0 ⟨Cold=0⟩
+                      → ↩ EventHud
+                    • ↩ EventHud
+                [Save the petrol] ↩ EventHud
+            • ▣ UIDanforth "Ask Danforth"
+              [Ask Danforth] · EventDanforth
+                → first that passes:
+                  • ▶ EventDanforthBroken if Nerve&lt;=0 "Danforth does not look up. He is drawing the same shape over and over in the ma…"
+                    [Continue] ↩ EventHud
+                  • ▶ EventDanforthResting if danforthAsked==1 "Danforth is still turning over your last question, lips moving silently. (Danfo…"
+                    [Continue] ↩ EventHud
+                  • ▶ EventDanforthA1Specimen if danforthAsked==0 AND Act==1 AND specPlaced==1 AND specDone==0 ""The ninth one. Lake said the tissue was not dead — only waiting. When it warms…" ⟨Nerve-=1, danforthAsked=1⟩
+                    [Continue] ↩ EventHud
+                  • ▶ EventDanforthA1Tracks if danforthAsked==0 AND Act==1 AND tracksFound==0 ""Whoever took the sledges went somewhere. The wind comes off the range — it wil…" ⟨Nerve-=1, danforthAsked=1⟩
+                    [Continue] ↩ EventHud
+                  • ▶ EventDanforthA1Drift if danforthAsked==0 AND Act==1 AND hangarSeen==1 AND planeReady==0 ""The sledge is wedged behind the small crates. Shift those first and it slides…" ⟨Nerve-=1, danforthAsked=1⟩
+                    [Continue] ↩ EventHud
+                  • ▶ EventDanforthA1Wireless if danforthAsked==0 AND Act==1 AND wirelessSeen==1 AND wirelessSolved==0 ""McTighe's slips: band four, dial two. And Lake always ran his trim high. Five,…" ⟨Nerve-=1, danforthAsked=1⟩
+                    [Continue] ↩ EventHud
+                  • ▶ EventDanforthIdle "I don't know," Danforth admits, pushing his spectacles up with a gloved finger.…"
+                    [Continue] ↩ EventHud
+        (places)
+          • ⊕ TokenStove "Lake's big camp stove, knocked over but sound. Getting it lit takes an action.…"
+              [Warm up (Exposure −1)] ▶ EventStoveWarm "Stiff fingers fumble with frozen matches until the stove catches. The warmth is…" ⟨Cold-=1⟩
+              [Continue] ↩ EventColdSettle
+              [Feed it petrol (−1 petrol, Exposure −3)] ↩ EventPrimusBurn
+              [Leave it] ↩ EventHud
+          • ⊕ TokenWreckage "Wind-scattered wreckage: canvas, crates, instruments, drifts that hide who know…"
+              [Dig through the wreckage] · EventSiftDraw
+                → one at random:
+                  • ▶ EventSiftPetrol if siftPetrol==0 "Under a collapsed tent, a two-gallon can of petrol: dented, frozen to the groun…" ⟨siftPetrol=1, siftCount+=1, Fuel+=2⟩
+                    [Continue] · EventSiftCheck
+                      → first that passes:
+                        • ▶ EventSiftExhausted if siftCount&gt;=8 "There is nothing left in the wreckage but snow." ⟨−TokenWreckage⟩
+                          [Continue] ↩ EventColdSettle
+                        • ↩ EventColdSettle
+                  • ▶ EventSiftFurs if siftFurs==0 "A bale of spare fur suits, stiff with frost but whole. The party pulls them on…" ⟨siftFurs=1, siftCount+=1, Cold-=2⟩
+                    [Continue] ↩ EventSiftCheck
+                  • ▶ EventSiftDynamite if siftDynamite==0 "Pabodie's blasting kit, still sealed in oilcloth. Somebody has opened one box,…" ⟨siftDynamite=1, siftCount+=1, hasDynamite=1, +QItemDynamite⟩
+                    [Continue] ↩ EventSiftCheck
+                  • ▶ EventSiftBlots if siftBlots==0 "Sheets of Lake's notepaper, spattered with ink — but not at random. The blots s…" ⟨siftBlots=1, siftCount+=1, Understanding+=1, dotClue1=1⟩
+                    [Continue] ↩ EventSiftCheck
+                  • ▶ EventSiftDog if siftDog==0 "Half-buried in a drift: one of the huskies. Its body has been opened with a sur…" ⟨siftDog=1, siftCount+=1⟩
+                    [Continue] ↩ EventSiftCheck
+                  • ▶ EventSiftEngine if siftEngine==0 "A plane's heater lies in pieces on a tarpaulin — not smashed, but taken apart,…" ⟨siftEngine=1, siftCount+=1, Understanding+=1⟩
+                    [Continue] ↩ EventSiftCheck
+                  • ▶ EventSiftBooks if siftBooks==0 "Lake's textbooks, the illustrated ones, are missing. The two left behind lie op…" ⟨siftBooks=1, siftCount+=1⟩
+                      [Pass] · EventSiftBooksPass ⟨Understanding+=1⟩
+                      → ↩ EventSiftCheck
+                      [Fail] ↩ EventSiftCheck
+                  • ▶ EventSiftPlates if siftPlates==0 "A tin of exposed photographic plates, Lake's own, undeveloped. Whatever he phot…" ⟨siftPlates=1, siftCount+=1, Photos+=1⟩
+                    [Continue] ↩ EventSiftCheck
+              [Leave it] ↩ EventHud
+          • ⊕ TokenWireless "Lake's short-wave set, blown off its crate but in one piece. Three dials — band…" ⟨wirelessSeen=1⟩
+              [Work the dials] ◆ PuzzleWireless ⟨code puzzle {observation} = 4 2 5⟩
+              [Call the Arkham] ▶ EventWirelessSolved "Static, then a voice: McTighe, faint as a ghost. "—picked up Lake at two a.m.,…" ⟨wirelessSolved=1, Fuel+=2, Understanding+=1, −TokenWireless⟩
+              [Continue] ↩ EventHud
+              [Leave it] ↩ EventHud
+          • ⊕ TokenExpTent "West of the stove, a larger tent slumps under its own snow-load: Lake's dissect…"
+            [Duck inside] ▶ EventTentReveal "Place TileTent. The smell is the first thing: chemical, and under it something…" ⟨+TileTent +TokenLakeTable +TokenSearchTent, −TokenExpTent⟩
+              [Continue] first that passes:
+                • · EventSpecimenAppearsTent if specLoc==3 ⟨specPlaced=1, specRound=#round, +TokenSpecimenTent⟩
+                    → ↩ EventHud
+                    (places) ⊕ TokenSpecimenTent "Under a frozen tarpaulin: a ninth specimen. It is not on Lake's list. Unlike th…"
+                      [Study it] ▶ EventSpecimenStudy "Test {lore}." ⟨specStudied=1⟩
+                        [Pass] ▶ EventSpecimenStudyPass "The tissue gives under your thumb like something asleep, not dead. Lake's Elder…" ⟨Understanding+=1⟩
+                        [Continue] ↩ EventHud
+                        [Fail] ▶ EventSpecimenStudyFail "One of the eye-stalks twitches. You are almost sure it twitched. Suffer 1 horro…"
+                        [Continue] ↩ EventHud
+                      [Photograph it] ▶ EventPhotoSpecimenTent "Five ridges, folded wings, the starfish head tucked down like a sleeping bird's…" ⟨Photos+=1, photoSpecimenTent=1⟩
+                      [Continue] ↩ EventHud
+                      [Burn it (−1 petrol)] ▶ EventSpecimenBurn "Petrol, a match. The flame takes slowly on the leathery hide, then all at once.…" ⟨Fuel-=1, Mercy=0, specDone=1, Nerve-=1, −TokenSpecimenCavern −TokenSpecimenHangar −TokenSpecimenTent⟩
+                      [Continue] ↩ EventHud
+                      [Leave it] ↩ EventHud
+                • ↩ EventHud
+              (places)
+                • ⊕ TokenLakeTable "Lake's dissecting table. One specimen was laid out here, and Lake's notebook li…"
+                    [Read the notebook] ▶ EventLakeNotebook "The last pages are Lake's dissection notes: tissue impossibly tough, a brain of…" ⟨+QItemLakesLog, −TokenLakeTable⟩
+                      [Pass] ▶ EventLakeNotebookPass "You understand what you are looking at, and wish you did not: someone compared…" ⟨Understanding+=1⟩
+                      [Continue] ↩ EventHud
+                      [Fail] ▶ EventLakeNotebookFail "The drawings swim before your eyes. Suffer 1 horror."
+                      [Continue] ↩ EventHud
+                      (gives) ✉ QItemLakesLog
+                      (inspect) ▶ EventReadLakesLog "Lake's field sketch: a barrel-shaped body, five ridges, folded fan-wings, a sta…" ⟨+UILakeSketch⟩
+                      [Continue] · EventHideLakeSketch ⟨−UILakeSketch⟩
+                    [Leave it] ↩ EventHud
+                • ⊕ TokenSearchTent "Lake's surgical chest, half under a fallen tent pole."
+                  [Search it] ▶ EventSearchTent "Among the instruments, something useful. Gain the item shown." ⟨+QItemTentFind, −TokenSearchTent⟩
+                  [Continue] ↩ EventHud
+          • ⊕ TokenExpHangar "East stands the snow-block shelter Atwood designed for the planes. Its roof has…"
+            [Go to the hangar] ▶ EventHangarReveal "Place TileHangar. Lake's second plane is buried to the wings in drift, crates a…" ⟨hangarSeen=1, +TileHangar +TokenDrift +TokenSearchHangar, −TokenExpHangar⟩
+              [Continue] first that passes:
+                • · EventSpecimenAppearsHangar if specLoc==2 ⟨specPlaced=1, specRound=#round, +TokenSpecimenHangar⟩
+                    → ↩ EventHud
+                    (places) ⊕ TokenSpecimenHangar "Under a frozen tarpaulin: a ninth specimen. It is not on Lake's list. Unlike th…"
+                      [Study it] ↩ EventSpecimenStudy
+                      [Photograph it] ▶ EventPhotoSpecimenHangar "Five ridges, folded wings, the starfish head tucked down like a sleeping bird's…" ⟨Photos+=1, photoSpecimenHangar=1⟩
+                      [Continue] ↩ EventHud
+                      [Burn it (−1 petrol)] ↩ EventSpecimenBurn
+                      [Leave it] ↩ EventHud
+                • ↩ EventHud
+              (places)
+                • ⊕ TokenDrift "The plane is your way over the range — and home. Crates, a sledge and packed dr…"
+                    [Dig it clear] first that passes:
+                      • ◆ PuzzleDriftLarge if #heroes&gt;=4 ⟨slide puzzle {strength}⟩
+                        [The plane is free] ▶ EventDriftCleared "The plane rocks free. The mechanic checks the struts, spits, and pronounces her…" ⟨planeReady=1, +TokenPlane, −TokenDrift⟩
+                          [Continue] ↩ EventHud
+                          (places) ⊕ TokenPlane "The plane waits, engine warm. West lies the range."
+                            [Board the plane] first that passes:
+                              • ▶ EventBoardReady if tracksFound==1 "The mechanic swings the propeller. All investigators must be in TileHangar to b…"
+                                  [Take off] ▶ EventAct1End "End of Act I (preview build). The plane lifts off Lake's camp and turns toward…" ✦ END
+                                  [Wait] ↩ EventHud
+                              • ▶ EventBoardNoTracks "Fly where? Someone took three sledges, Gedney and a dog out of this camp. Until…"
+                                [Continue] ↩ EventHud
+                            [Not yet] ↩ EventHud
+                      • ◆ PuzzleDriftSmall ⟨slide puzzle {strength}⟩
+                        [The plane is free] ↩ EventDriftCleared
+                    [Blast it with dynamite] ▶ EventDriftBlast "The charge goes off with a flat crack that rolls away across the plateau and co…" ⟨hasDynamite=0, Piping+=3, −QItemDynamite⟩
+                    [Continue] ↩ EventDriftCleared
+                    [Leave it for now] ↩ EventHud
+                • ⊕ TokenSearchHangar "A locker of emergency stores."
+                  [Search it] ▶ EventSearchHangar "A Very pistol and a box of flares. Gain the Flare Gun." ⟨+QItemFlareGun, −TokenSearchHangar⟩
+                  [Continue] ↩ EventHud
+          • ⊕ TokenExpKennel "South, the dogs' corral: a wall of snow blocks, broken outward."
+            [Go to the corral] ▶ EventKennelReveal "Place TileKennel." ⟨+TileKennel +TokenKennel +TokenExpMounds, −TokenExpKennel⟩
+              [Continue] ↩ EventHud
+              (places)
+                • ⊕ TokenKennel "The dogs fought something here. Most of them lost."
+                    [Look closer] ▶ EventKennel "The huskies lie where they fell, some torn, some — like the one in the wreckage…" ⟨−TokenKennel⟩
+                      [Continue] first that passes:
+                        • ▶ EventKennelDog if dogHere==1 "A whimper, from under an overturned sledge. One husky survived, curled in a hol…" ⟨dogFound=1, +QItemDuke⟩
+                          [Continue] ↩ EventHud
+                        • ▶ EventKennelNoDog "You count them twice. One dog is missing — and so, the camp tells you, is one m…"
+                          [Continue] ↩ EventHud
+                    [Look away] ↩ EventHud
+                • ⊕ TokenExpMounds "Beyond the corral the snow rises in regular shapes."
+                  [Walk out to them] ▶ EventMoundsReveal "Place TileMounds. Six mounds of packed snow, nine feet long. Each is patterned…" ⟨+TileMounds +TokenMounds +TokenTracks +TokenExpBore, −TokenExpMounds⟩
+                    [Continue] ↩ EventHud
+                    (places)
+                      • ⊕ TokenMounds "The six star-patterned mounds. Graves, if you let yourself think the word."
+                          [Dig one open] ▶ EventMoundsDig "The snow is packed hard as brick. Test {strength}."
+                            [Pass] ▶ EventMoundsDug "One of the six damaged specimens lies inside, laid straight, its broken parts g…" ⟨moundsDug=1, Understanding+=1, Nerve-=1⟩
+                            [Continue] ↩ EventHud
+                            [Fail] ▶ EventMoundsHard "Your spade rings off it. You can try again with another action."
+                            [Continue] ↩ EventHud
+                          [Photograph it] ▶ EventPhotoMounds "Six graves in the snow, patterned with dots. The shutter clicks loud as a shot.…" ⟨Photos+=1, photoMounds=1⟩
+                          [Continue] ↩ EventHud
+                          [Leave them] ↩ EventHud
+                      • ⊕ TokenTracks "The snow west of the mounds is scoured, but here and there something shows thro…"
+                          [Read the ground] ▶ EventTracks "Drifting snow has half filled whatever was here. Test {observation}."
+                            [Pass] ▶ EventTracksFound "Sledge runners, three sets of them, heading west-northwest toward the black ran…" ⟨tracksFound=1, −TokenTracks⟩
+                            [Continue] ↩ EventHud
+                            [Fail] ▶ EventTracksLost "Wind-ripples, nothing more. Look again with another action."
+                            [Continue] ↩ EventHud
+                          [Leave it] ↩ EventHud
+                      • ⊕ TokenExpBore "East, the derrick of Pabodie's drill stands over Lake's blasted shaft."
+                        [Climb down] ▶ EventBoreReveal "Place TileBore. A ladder of lashed rods goes down the shaft into a limestone pa…" ⟨+TileBore +TokenBore +TokenExpCavern, −TokenExpBore⟩
+                          [Continue] ↩ EventHud
+                          (places)
+                            • ⊕ TokenBore "The triangular prints Lake radioed about, pressed into rock a thousand million…"
+                                [Photograph it] ▶ EventPhotoPrints "The flashpowder goes off; for an instant the prints stand out sharp as yesterda…" ⟨Photos+=1, photoPrints=1⟩
+                                [Continue] ↩ EventHud
+                                [Leave them] ↩ EventHud
+                            • ⊕ TokenExpCavern "The passage opens into the cavern where Lake found them."
+                              [Go in] ▶ EventCavernReveal "Place TileCavern. Stalactites hacked away; niches in the limestone where fourte…" ⟨+TileCavern +TokenSoapstones, −TokenExpCavern⟩
+                                [Continue] first that passes:
+                                  • · EventSpecimenAppearsCavern if specLoc==1 ⟨specPlaced=1, specRound=#round, +TokenSpecimenCavern⟩
+                                      → ↩ EventHud
+                                      (places) ⊕ TokenSpecimenCavern "Under a frozen tarpaulin: a ninth specimen. It is not on Lake's list. Unlike th…"
+                                        [Study it] ↩ EventSpecimenStudy
+                                        [Photograph it] ▶ EventPhotoSpecimenCavern "Five ridges, folded wings, the starfish head tucked down like a sleeping bird's…" ⟨Photos+=1, photoSpecimenCavern=1⟩
+                                        [Continue] ↩ EventHud
+                                        [Burn it (−1 petrol)] ↩ EventSpecimenBurn
+                                        [Leave it] ↩ EventHud
+                                  • ↩ EventHud
+                                (places) ⊕ TokenSoapstones "Green soapstones, star-shaped, set in the niches like grave goods. Each is cove…"
+                                  [Study the dots] ▶ EventSoapstones "Test {lore}."
+                                    [Pass] ▶ EventSoapstonesPass "The groups repeat. Ones, twos, up to fives, never more — they count in fives. I…" ⟨Understanding+=1, dotClue2=1, −TokenSoapstones⟩
+                                    [Continue] ↩ EventHud
+                                    [Fail] ▶ EventSoapstonesFail "The patterns crawl when you stare at them. Suffer 1 horror."
+                                    [Continue] ↩ EventHud
+                                  [Leave them] ↩ EventHud
+    • ↩ EventAct1Setup
+
+== Trigger EndInvestigatorTurn ==
+· EventHudAfterTurn
+→ ↩ EventHud
+
+== Trigger EndRound ==
+· EventEndRoundReset ⟨danforthAsked=0⟩
+→ ↩ EventHud
+
+== Trigger Eliminated ==
+▶ EventDefeatEliminated "One of the party falls and does not rise. There is no carrying anyone across th…" ✦ END
+
+== Trigger EndRound ==
+· EventThaw if specPlaced==1 AND specDone==0 AND #round&gt;specRound AND #round&gt;=3 ⟨specDone=1⟩
+  → first that passes:
+    • ▶ EventThawCavern if specLoc==1 "Water sheets from the ridges of the ninth specimen. The folded wings shudder, a…" ⟨−TokenSpecimenCavern −TokenSpecimenHangar −TokenSpecimenTent⟩
+      [Stand your ground] ☠ SpawnETCavern ⟨monster CustomMonsterElderThing⟩
+        → ↩ EventHud
+        (each monster phase) · EventETActivation
+          → one at random:
+            • ▶ EventETCurious "The Elder Thing glides 1 space toward the nearest investigator, cilia rippling,…"
+              [It reached an investigator] ▶ EventETExamine "Twenty-five tendrils explore your coat, your face, the things in your pockets —…"
+            • ↩ EventETCurious
+            • ▶ EventETWarmth "The Elder Thing moves 2 spaces toward TileCamp, where the stove stands — toward…"
+              [It reached the camp] ▶ EventETStove "It folds itself over the stove as if it were a hearth of its own, smothering th…" ⟨Cold+=2⟩
+              [Continue] ↩ EventColdSettle
+            • ▶ EventETWounded "The Elder Thing's wings snap wide."
+                [It has been wounded] ▶ EventETLash "Cornered and hurt, it lashes out with five tough arms. It moves 1 space toward…"
+                [It is unharmed] ↩ EventETCurious
+            • ▶ EventETWest if etSpared==0 "The Elder Thing turns toward the west — toward the black range — wings half spr…"
+                [Let it go] ▶ EventETSpared "You step aside. It glides past you, close enough to touch, and out into the sno…" ⟨etSpared=1, Understanding+=1, −SpawnETCavern −SpawnETHangar −SpawnETTent⟩
+                [Continue] ↩ EventHud
+                [Stop it] ↩ EventETLash
+        (when defeated) · EventETDefeatedCavern
+        → ▶ EventETDies "It dies slowly, folding in on itself, and at the last it pipes — a thin fluting…" ⟨Mercy=0, Understanding+=1⟩
+        [Continue] ↩ EventHud
+    • ▶ EventThawHangar if specLoc==2 "Water sheets from the ridges of the ninth specimen. The folded wings shudder, a…" ⟨−TokenSpecimenCavern −TokenSpecimenHangar −TokenSpecimenTent⟩
+      [Stand your ground] ☠ SpawnETHangar ⟨monster CustomMonsterElderThing⟩
+        → ↩ EventHud
+        (each monster phase) ↩ EventETActivation
+        (when defeated) · EventETDefeatedHangar
+        → ↩ EventETDies
+    • ▶ EventThawTent if specLoc==3 "Water sheets from the ridges of the ninth specimen. The folded wings shudder, a…" ⟨−TokenSpecimenCavern −TokenSpecimenHangar −TokenSpecimenTent⟩
+      [Stand your ground] ☠ SpawnETTent ⟨monster CustomMonsterElderThing⟩
+        → ↩ EventHud
+        (each monster phase) ↩ EventETActivation
+        (when defeated) · EventETDefeatedTent
+        → ↩ EventETDies
+
+== Trigger Mythos ==
+· EventMythos
+  → first that passes:
+    • · EventMythosDeck3 if Act==3
+    • · EventMythosDeck2 if Act==2 ⟨Cold+=1⟩
+    • · EventMythosDeck1 if Act==1 ⟨Cold+=1⟩
+        → one at random:
+          • ▶ EventGaleGust if seenGaleGust==0 "The wind screams down off the range and through every seam of your furs. Exposu…" ⟨seenGaleGust=1, Cold+=1⟩
+            [Continue] · EventColdEffects
+              → first that passes:
+                • · EventColdClampHigh2 if Cold&gt;10 ⟨Cold=10⟩
+                  → ▶ EventCold10 if Cold&gt;=10 "FREEZING. Breath crystallises on beards and scarves; thought itself grows slow.…"
+                  [Continue] · EventMythosDone
+                  → ↩ EventHud
+                • ↩ EventCold10
+                • ▶ EventCold8 if Cold&gt;=8 "FROSTBITE. White patches bloom on cheeks and fingertips. Each investigator suff…"
+                  [Continue] ↩ EventMythosDone
+                • ▶ EventCold5 if Cold&gt;=5 "NUMB. The cold has found its way inside the furs. Each investigator suffers 1 d…"
+                  [Continue] ↩ EventMythosDone
+                • ↩ EventMythosDone
+          • ▶ EventGaleBlind if seenGaleBlind==0 "A wall of blown snow rolls across the camp; for a while there is no up or down.…" ⟨seenGaleBlind=1⟩
+            [Continue] ↩ EventColdEffects
+          • ▶ EventGaleHowl if seenGaleHowl==0 "Somewhere out on the plateau a dog is howling. Every dog in this camp is accoun…" ⟨seenGaleHowl=1⟩
+            [Continue] ↩ EventColdEffects
+          • ▶ EventGaleStatic if seenGaleStatic==0 "The wireless — or what is left of it — crackles by itself: a carrier wave, and…" ⟨seenGaleStatic=1, Piping+=1⟩
+            [Continue] ↩ EventColdEffects
+          • ▶ EventGaleMirage if seenGaleMirage==0 "Above the western peaks the air shimmers into towers: cubes, ramparts, cones, a…" ⟨seenGaleMirage=1, Understanding+=1⟩
+            [Continue] ↩ EventColdEffects
+          • ▶ EventGaleCanvas if seenGaleCanvas==0 "A gust tears a sheet of frozen canvas loose and sends it tumbling like a blade.…" ⟨seenGaleCanvas=1⟩
+            [Continue] ↩ EventColdEffects
+          • ▶ EventGaleFrost if seenGaleFrost==0 AND Fuel&gt;=1 "The petrol has begun to jell in the cans, and one splits along its seam. Petrol…" ⟨seenGaleFrost=1, Fuel-=1⟩
+            [Continue] ↩ EventColdEffects
+          • ▶ EventGaleDrift if seenGaleDrift==0 AND tracksFound==0 "The wind is filling in everything that was written on the snow. Whatever tracks…" ⟨seenGaleDrift=1, Cold+=1⟩
+            [Continue] ↩ EventColdEffects
+          • ▶ EventGalePiping if seenGalePiping==0 "For a moment, between gusts, you hear it — a thin musical piping, very far off,…" ⟨seenGalePiping=1, Piping+=1⟩
+            [Continue] ↩ EventColdEffects
+          • ▶ EventGaleLull "The gale drops. For a few breaths there is absolute silence, and the low sun on…"
+            [Continue] ↩ EventColdEffects
+
+== Endings ==
+✦ EventAct1End ← EventBoardReady
+✦ EventDefeatEliminated
+
+== Never reached ==
+EventHudOff</pre>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'dark', maxTextSize: 500000, maxEdges: 5000, flowchart: { htmlLabels: true, curve: 'basis' } });
+</script>
+</body></html>

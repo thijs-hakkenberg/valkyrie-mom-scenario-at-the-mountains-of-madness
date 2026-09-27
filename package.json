@@ -1,0 +1,15 @@
+{
+  "name": "valkyrie-mom-scenario-at-the-mountains-of-madness",
+  "private": true,
+  "type": "module",
+  "description": "Build script for the Valkyrie MoM scenario At the Mountains of Madness",
+  "scripts": {
+    "build": "tsx build/index.ts",
+    "package": "tsx build/index.ts --package"
+  },
+  "devDependencies": {
+    "@thijshakkenberg/valkyrie-mom-mcp": "2.3.2",
+    "tsx": "^4.19.0",
+    "@types/node": "^22.0.0"
+  }
+}
