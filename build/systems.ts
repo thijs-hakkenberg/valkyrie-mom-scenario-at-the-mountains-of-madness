@@ -1,4 +1,4 @@
-// Systems that run through the whole scenario: variables, the status panel, the primus stove,
+// Systems that run through the whole scenario: variables, the primus stove,
 // Danforth, the mythos deck and the cold. See docs/storybook.md, "Persistent systems".
 import { Scenario, t, and, CONTINUE } from './lib.js';
 
@@ -12,11 +12,8 @@ export const START_VARS: Record<string, number> = {
   Photos: 0,          // evidence for Dyer's warning
   Mercy: 1,           // 0 once an Elder Thing has been killed or burned
   Act: 1,
-  hudOn: 0,
   danforthAsked: 0,
 };
-
-export const HUD_ELEMENTS = ['UIHud', 'UIDanforth'];
 
 /** Danforth's hints, most urgent first; acts register theirs before build() */
 const danforthHints: string[] = [];
@@ -38,34 +35,28 @@ export function addMythos(s: Scenario, act: number, name: string, text: string, 
 }
 
 export function systems(s: Scenario) {
-  // ── Status panel (top left): refreshed by removing and re-adding it, since UI text reads {var:} when placed
-  s.ui('UIHud', {
-    halign: 'left', valign: 'top', xposition: '0.02', yposition: '0.02', size: '0.2', textaspect: '1.7',
-    textsize: '0.55', richText: 'True', textAlignment: 'TOP', textcolor: 'white', textbackgroundcolor: '#0c1822d9', border: 'True',
-  }, '<align="left"><b>EXPOSURE</b>  {var:Cold} / 10\n<b>PETROL</b>  {var:Fuel}\n<b>UNDERSTANDING</b>  {var:Understanding}\n<b>DANFORTH\'S NERVE</b>  {var:Nerve}\n<size=75%><i>Tap: light the primus stove</i></size></align>', 'EventPrimus');
-  s.ui('UIDanforth', {
-    halign: 'left', valign: 'bottom', xposition: '0.02', yposition: '0.02', size: '0.22', image: 'img/Danforth.jpg', border: 'True',
-  }, 'Ask Danforth', 'EventDanforth');
+  // ── Danforth travels with the party as a token (acts place him). His notebook is the expedition's
+  // status sheet: dialog text reads {var:} each time it opens. No UI overlay: any UI on the board
+  // stops Valkyrie's "next phase" button (Quest.UIItemsPresent), so UI is only for cutscenes and handouts.
+  s.event('EventDanforthMenu', {
+    text: `Danforth looks up from the expedition log he keeps for Dyer.
 
-  s.jump('EventHud', 'EventHudShow', { remove: ['UIHud', 'UIDanforth'] });
-  s.stop('EventHudShow', { tests: t('hudOn', '==', 1), add: ['UIHud', 'UIDanforth'] });
-  s.jump('EventHudAfterTurn', 'EventHud', { trigger: 'EndInvestigatorTurn' });
-  s.jump('EventHudOn', 'EventHud', { ops: 'hudOn,=,1' });
-  s.stop('EventHudOff', { ops: 'hudOn,=,0', remove: ['UIHud', 'UIDanforth'] });
-
-  // Keep Exposure within 0..10 (list these before whatever comes next)
-  s.jump('EventColdClampHigh', 'EventHud', { tests: t('Cold', '>', 10), ops: 'Cold,=,10' });
-  s.jump('EventColdClampLow', 'EventHud', { tests: t('Cold', '<', 0), ops: 'Cold,=,0' });
-  s.jump('EventColdSettle', ['EventColdClampHigh', 'EventColdClampLow', 'EventHud']);
-
-  // ── The primus stove: a portable heat source anywhere, at the price of petrol
-  s.event('EventPrimus', {
-    text: 'The primus stove hisses into a blue flame. Lighting it takes an action from the investigator whose turn it is.\n\nExposure <b>{var:Cold}</b> / 10 · Petrol <b>{var:Fuel}</b>',
+<b>Exposure</b> {var:Cold} / 10   ·   <b>Petrol</b> {var:Fuel} <size=80%>(the flight home needs 3)</size>
+<b>Understanding</b> {var:Understanding}   ·   <b>Evidence</b> {var:Photos}   ·   <b>His nerve</b> {var:Nerve}`,
     buttons: [
-      { label: 'Burn a can of petrol (Exposure −3)', to: 'EventPrimusBurn', cond: t('Fuel', '>=', 1) },
-      { label: 'Save the petrol', to: 'EventHud' },
+      { label: 'Ask what he thinks', to: 'EventDanforth' },
+      { label: 'Light the primus stove (−1 petrol, Exposure −3)', to: 'EventPrimusBurn', cond: t('Fuel', '>=', 1) },
+      { label: 'Carry on', to: 'EventDone' },
     ],
   });
+  s.stop('EventDone');
+
+  // Keep Exposure within 0..10 (list these before whatever comes next)
+  s.jump('EventColdClampHigh', 'EventDone', { tests: t('Cold', '>', 10), ops: 'Cold,=,10' });
+  s.jump('EventColdClampLow', 'EventDone', { tests: t('Cold', '<', 0), ops: 'Cold,=,0' });
+  s.jump('EventColdSettle', ['EventColdClampHigh', 'EventColdClampLow', 'EventDone']);
+
+  // ── The primus stove: a portable heat source anywhere, at the price of petrol (and an action)
   s.event('EventPrimusBurn', {
     text: 'Hands held to the flame, the party feels the blood return to their fingers. Every can burned here is a can the plane will not have.',
     ops: 'Fuel,-,1 Cold,-,3', audio: 'AudioSpell1',
@@ -76,18 +67,18 @@ export function systems(s: Scenario) {
   s.event('EventDanforthBroken', {
     tests: t('Nerve', '<=', 0),
     text: 'Danforth does not look up. He is drawing the same shape over and over in the margin of his notebook, and whispering a word that is not a word.\n\n<i>"Tekeli-li..."</i>',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
   s.event('EventDanforthResting', {
     tests: t('danforthAsked', '==', 1),
     text: 'Danforth is still turning over your last question, lips moving silently. <i>(Danforth can be asked once each round.)</i>',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
   s.event('EventDanforthIdle', {
     text: '"I don\'t know," Danforth admits, pushing his spectacles up with a gloved finger. "Look around more. There is always something we\'ve not seen."',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
-  s.jump('EventEndRoundReset', 'EventHud', { trigger: 'EndRound', ops: 'danforthAsked,=,0' });
+  s.stop('EventEndRoundReset', { trigger: 'EndRound', ops: 'danforthAsked,=,0' });
 
   // ── Cold effects at the end of each mythos phase
   s.event('EventCold10', {
@@ -107,7 +98,7 @@ export function systems(s: Scenario) {
   });
   s.jump('EventColdEffects', ['EventColdClampHigh2', 'EventCold10', 'EventCold8', 'EventCold5', 'EventMythosDone']);
   s.jump('EventColdClampHigh2', ['EventCold10'], { tests: t('Cold', '>', 10), ops: 'Cold,=,10' });
-  s.jump('EventMythosDone', 'EventHud');
+  s.stop('EventMythosDone');
 
   // ── Eliminated: the ice keeps them
   s.event('EventDefeatEliminated', {
@@ -136,7 +127,7 @@ export function danforthHint(s: Scenario, name: string, tests: string, text: str
     tests: and(t('danforthAsked', '==', 0), tests),
     text: `${text}\n\n<i>Danforth's hands are not quite steady. (Nerve −1)</i>`,
     ops: 'Nerve,-,1 danforthAsked,=,1',
-    buttons: [{ label: CONTINUE, to: 'EventHud' }],
+    buttons: [{ label: CONTINUE, to: 'EventDone' }],
   });
   addDanforthHint(name);
 }

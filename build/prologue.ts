@@ -68,7 +68,7 @@ Then a gale came down off the range, and Lake's camp went silent.
 
 Professor Dyer will not wait. The relief party flies to Lake's camp: you, a mechanic to nurse the engine, and young Danforth, the graduate student who has read the <i>Necronomicon</i> in the university library and will not say what he found there.
 
-<i>Danforth sits in the lower left corner of the screen: click him for his thoughts, once each round. The panel in the upper left tracks the cold, your petrol, and what you have come to understand. Click it to light the primus stove.</i>`,
+<i>Danforth's token travels with the party. Click him to read the expedition log: the cold, your petrol, and what you have come to understand. He will share his thoughts once each round, and he carries the primus stove.</i>`,
     buttons: [{ label: 'Fly to Lake\'s camp', to: ['EventCluesSmallParty', 'EventAct1Setup'] }],
   });
 

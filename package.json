@@ -8,7 +8,7 @@
     "package": "tsx build/index.ts --package"
   },
   "devDependencies": {
-    "@thijshakkenberg/valkyrie-mom-mcp": "2.3.2",
+    "@thijshakkenberg/valkyrie-mom-mcp": "2.3.3",
     "tsx": "^4.19.0",
     "@types/node": "^22.0.0"
   }

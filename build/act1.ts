@@ -33,8 +33,11 @@ export function act1(s: Scenario) {
   s.item('QItemDynamite', { itemname: 'ItemCommonDynamite' });
 
   // ── Setup
-  const campTokens = ['TokenStove', 'TokenWreckage', 'TokenWireless', 'TokenExpTent', 'TokenExpHangar', 'TokenExpKennel'];
+  const campTokens = ['TokenDanforthCamp', 'TokenStove', 'TokenWreckage', 'TokenWireless', 'TokenExpTent', 'TokenExpHangar', 'TokenExpKennel'];
   s.token('TokenInvestigators', 'TokenInvestigators', s.at('TileCamp', 0.5, 0.5));
+  s.token('TokenDanforthCamp', 'TokenInteract', s.at('TileCamp', 0.1, 0.78), {
+    customImage: 'img/Danforth.jpg', text: '.', hidden: true, buttons: [{ to: 'EventDanforthMenu' }],
+  });
   s.event('EventAct1Setup', {
     add: ['TileCamp', 'TokenInvestigators', ...campTokens], audio: 'AudioSetup',
     text: `The plane skids to a halt on hard-packed snow beside what is left of Lake's camp. The engine ticks as it cools. Nothing else moves.
@@ -44,7 +47,7 @@ Place {c:TileCamp}. Place all investigators on the start space.
 <i>The wind has torn the tents to rags and the dogs' snow-walled corral is breached. Of Lake's eleven men there is no sign — not yet.</i>`,
     buttons: [{ label: 'Step out into the wind', to: 'EventAct1Begin' }],
   });
-  s.jump('EventAct1Begin', 'EventHudOn', { remove: 'TokenInvestigators' });
+  s.stop('EventAct1Begin', { remove: 'TokenInvestigators' });
 
   // ── Camp: the stove (a free but slow heat source)
   s.token('TokenStove', 'TokenInteract', s.at('TileCamp', 0.3, 0.25), {
@@ -53,7 +56,7 @@ Place {c:TileCamp}. Place all investigators on the start space.
     buttons: [
       { label: 'Warm up (Exposure −1)', to: 'EventStoveWarm' },
       { label: 'Feed it petrol (−1 petrol, Exposure −3)', to: 'EventPrimusBurn', cond: t('Fuel', '>=', 1) },
-      { label: 'Leave it', to: 'EventHud' },
+      { label: 'Leave it', to: 'EventDone' },
     ],
   });
   s.event('EventStoveWarm', {
@@ -64,7 +67,7 @@ Place {c:TileCamp}. Place all investigators on the start space.
   // ── Camp: sift the wreckage (event loop over a random pool, each outcome once)
   s.token('TokenWreckage', 'TokenSearch', s.at('TileCamp', 0.5, 0.25), {
     text: `Wind-scattered wreckage: canvas, crates, instruments, drifts that hide who knows what. Sifting through it takes an action; there may be more to find each time.`,
-    buttons: [{ label: 'Dig through the wreckage', to: 'EventSiftDraw' }, { label: 'Leave it', to: 'EventHud' }],
+    buttons: [{ label: 'Dig through the wreckage', to: 'EventSiftDraw' }, { label: 'Leave it', to: 'EventDone' }],
   });
   const sift: Array<[string, string, Partial<Parameters<Scenario['event']>[1]>]> = [
     ['Petrol', 'Under a collapsed tent, a two-gallon can of petrol: dented, frozen to the ground, and full. <b>Petrol +2.</b>', { ops: 'Fuel,+,2' }],
@@ -100,7 +103,7 @@ Place {c:TileCamp}. Place all investigators on the start space.
   s.token('TokenWireless', 'TokenInteract', s.at('TileCamp', 0.7, 0.25), {
     customImage: 'img/TokenWireless.png', ops: 'wirelessSeen,=,1',
     text: `Lake's short-wave set, blown off its crate but in one piece. Three dials — band, dial and trim, each marked one to six. Tuned right, it might still reach the <i>Arkham</i> at McMurdo Sound.\n\nTest {observation}: you may make as many changes as your result. McTighe's slips may help.`,
-    buttons: [{ label: 'Work the dials', to: 'PuzzleWireless' }, { label: 'Leave it', to: 'EventHud' }],
+    buttons: [{ label: 'Work the dials', to: 'PuzzleWireless' }, { label: 'Leave it', to: 'EventDone' }],
   });
   s.puzzle('PuzzleWireless', { class: 'code', skill: '{observation}', puzzlelevel: '3', puzzlealtlevel: '6', puzzlesolution: '4 2 5' },
     'Call the Arkham', 'EventWirelessSolved');
@@ -111,7 +114,7 @@ Place {c:TileCamp}. Place all investigators on the start space.
 "—picked up Lake at two a.m., just a carrier and noise. Then something went out on his band that wasn't Lake. <i>Whistling</i>, like a flute, up and down the scale. It went on a long while."
 
 He tells you where Lake cached reserve petrol, under the drill derrick. <b>Petrol +2. Understanding +1.</b>`,
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
 
   // ── Explore: dissection tent
@@ -122,11 +125,11 @@ He tells you where Lake cached reserve petrol, under the drill derrick. <b>Petro
   s.event('EventTentReveal', {
     add: ['TileTent', 'TokenLakeTable', 'TokenSearchTent'], remove: 'TokenExpTent', audio: 'AudioRevealTile1',
     text: 'Place {c:TileTent}.\n\nThe smell is the first thing: chemical, and under it something like the sea.',
-    buttons: [{ to: ['EventSpecimenAppearsTent', 'EventHud'] }],
+    buttons: [{ to: ['EventSpecimenAppearsTent', 'EventDone'] }],
   });
   s.token('TokenLakeTable', 'TokenInteract', s.at('TileTent', 0.45, 0.4), {
     text: `Lake's dissecting table. One specimen was laid out here, and Lake's notebook lies beside it, open and weighted with a stone.`,
-    buttons: [{ label: 'Read the notebook', to: 'EventLakeNotebook' }, { label: 'Leave it', to: 'EventHud' }],
+    buttons: [{ label: 'Read the notebook', to: 'EventLakeNotebook' }, { label: 'Leave it', to: 'EventDone' }],
   });
   s.event('EventLakeNotebook', {
     remove: 'TokenLakeTable', add: 'QItemLakesLog', audio: 'AudioPapers2',
@@ -140,9 +143,9 @@ Then the entries change. Different pencil strokes cut the pages — careful inci
   s.event('EventLakeNotebookPass', {
     ops: 'Understanding,+,1',
     text: 'You understand what you are looking at, and wish you did not: someone compared the two anatomies with the same patient curiosity Lake brought to theirs. <b>Understanding +1.</b>',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
-  s.event('EventLakeNotebookFail', { text: 'The drawings swim before your eyes. Suffer 1 horror.', buttons: [{ to: 'EventHud' }] });
+  s.event('EventLakeNotebookFail', { text: 'The drawings swim before your eyes. Suffer 1 horror.', buttons: [{ to: 'EventDone' }] });
   s.item('QItemLakesLog', { itemname: 'ItemCommonExpeditionLog', inspect: 'EventReadLakesLog' });
   s.ui('UILakeSketch', { image: 'img/LakeSketch.jpg', xposition: '0', yposition: '0.13', size: '0.66' });
   s.event('EventReadLakesLog', {
@@ -156,7 +159,7 @@ Then the entries change. Different pencil strokes cut the pages — careful inci
     buttons: [{ label: 'Search it', to: 'EventSearchTent' }],
   });
   s.item('QItemTentFind', { traits: 'common' });
-  s.event('EventSearchTent', { remove: 'TokenSearchTent', add: 'QItemTentFind', text: 'Among the instruments, something useful. <b>Gain the item shown.</b>', audio: 'AudioGainItem', buttons: [{ to: 'EventHud' }] });
+  s.event('EventSearchTent', { remove: 'TokenSearchTent', add: 'QItemTentFind', text: 'Among the instruments, something useful. <b>Gain the item shown.</b>', audio: 'AudioGainItem', buttons: [{ to: 'EventDone' }] });
 
   // ── Explore: the snowbound hangar (SLIDE puzzle, or dynamite)
   s.token('TokenExpHangar', 'TokenExplore', s.door('TileCamp', 'TileHangar'), {
@@ -167,7 +170,7 @@ Then the entries change. Different pencil strokes cut the pages — careful inci
     add: ['TileHangar', 'TokenDrift', 'TokenSearchHangar'], remove: 'TokenExpHangar', audio: 'AudioRevealTile2',
     ops: 'hangarSeen,=,1',
     text: 'Place {c:TileHangar}.\n\nLake\'s second plane is buried to the wings in drift, crates and a sledge wedged against the fuselage.',
-    buttons: [{ to: ['EventSpecimenAppearsHangar', 'EventHud'] }],
+    buttons: [{ to: ['EventSpecimenAppearsHangar', 'EventDone'] }],
   });
   s.token('TokenDrift', 'TokenInteract', s.at('TileHangar', 0.5, 0.45), {
     customImage: 'img/TokenPlane.png', size: 'huge',
@@ -175,7 +178,7 @@ Then the entries change. Different pencil strokes cut the pages — careful inci
     buttons: [
       { label: 'Dig it clear', to: ['PuzzleDriftLarge', 'PuzzleDriftSmall'] },
       { label: 'Blast it with dynamite', to: 'EventDriftBlast', cond: t('hasDynamite', '==', 1) },
-      { label: 'Leave it for now', to: 'EventHud' },
+      { label: 'Leave it for now', to: 'EventDone' },
     ],
   });
   // More investigators means more moves each round, so the drift is deeper
@@ -191,13 +194,13 @@ The drift is gone. Everything within fifty miles heard it.`,
   s.event('EventDriftCleared', {
     remove: 'TokenDrift', add: 'TokenPlane', ops: 'planeReady,=,1', audio: 'AudioComplete',
     text: 'The plane rocks free. The mechanic checks the struts, spits, and pronounces her fit to fly. <b>The plane is ready.</b>',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
   s.token('TokenSearchHangar', 'TokenSearch', s.at('TileHangar', 0.2, 0.8), {
     text: 'A locker of emergency stores.', buttons: [{ label: 'Search it', to: 'EventSearchHangar' }],
   });
   s.item('QItemFlareGun', { itemname: 'ItemCommonFlareGun' });
-  s.event('EventSearchHangar', { remove: 'TokenSearchHangar', add: 'QItemFlareGun', text: 'A Very pistol and a box of flares. <b>Gain the Flare Gun.</b>', audio: 'AudioGainItem', buttons: [{ to: 'EventHud' }] });
+  s.event('EventSearchHangar', { remove: 'TokenSearchHangar', add: 'QItemFlareGun', text: 'A Very pistol and a box of flares. <b>Gain the Flare Gun.</b>', audio: 'AudioGainItem', buttons: [{ to: 'EventDone' }] });
 
   // ── Explore: the kennel
   s.token('TokenExpKennel', 'TokenExplore', s.door('TileCamp', 'TileKennel'), {
@@ -206,11 +209,11 @@ The drift is gone. Everything within fifty miles heard it.`,
   });
   s.event('EventKennelReveal', {
     add: ['TileKennel', 'TokenKennel', 'TokenExpMounds'], remove: 'TokenExpKennel', audio: 'AudioRevealTile1',
-    text: 'Place {c:TileKennel}.', buttons: [{ to: 'EventHud' }],
+    text: 'Place {c:TileKennel}.', buttons: [{ to: 'EventDone' }],
   });
   s.token('TokenKennel', 'TokenInteract', s.at('TileKennel', 0.35, 0.5), {
     text: 'The dogs fought something here. Most of them lost.',
-    buttons: [{ label: 'Look closer', to: 'EventKennel' }, { label: 'Look away', to: 'EventHud' }],
+    buttons: [{ label: 'Look closer', to: 'EventKennel' }, { label: 'Look away', to: 'EventDone' }],
   });
   s.event('EventKennel', {
     remove: 'TokenKennel', audio: 'AudioDog',
@@ -221,11 +224,11 @@ The drift is gone. Everything within fifty miles heard it.`,
   s.event('EventKennelDog', {
     tests: t('dogHere', '==', 1), add: 'QItemDuke', ops: 'dogFound,=,1',
     text: 'A whimper, from under an overturned sledge. One husky survived, curled in a hollow of snow. He comes to your hand at once and will not leave it. <b>Gain the dog.</b>\n\n<i>He growls, low, whenever the wind comes from the west.</i>',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
   s.event('EventKennelNoDog', {
     text: 'You count them twice. <b>One dog is missing</b> — and so, the camp tells you, is one man: <b>Gedney</b>.',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
 
   // ── Explore: the star mounds and the tracks west
@@ -235,15 +238,15 @@ The drift is gone. Everything within fifty miles heard it.`,
   s.event('EventMoundsReveal', {
     add: ['TileMounds', 'TokenMounds', 'TokenTracks', 'TokenExpBore'], remove: 'TokenExpMounds', audio: 'AudioRevealTile2',
     text: 'Place {c:TileMounds}.\n\nSix mounds of packed snow, nine feet long. Each is patterned with dots in groups, arranged as a five-pointed star.',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
   s.token('TokenMounds', 'TokenInteract', s.at('TileMounds', 0.4, 0.4), {
     customImage: 'img/TokenMound.png',
     text: 'The six star-patterned mounds. Graves, if you let yourself think the word.',
-    buttons: [{ label: 'Dig one open', to: 'EventMoundsDig', cond: t('moundsDug', '==', 0) }, photo(s, 'Mounds', 'EventHud', 'Six graves in the snow, patterned with dots. The shutter clicks loud as a shot.'), { label: 'Leave them', to: 'EventHud' }],
+    buttons: [{ label: 'Dig one open', to: 'EventMoundsDig', cond: t('moundsDug', '==', 0) }, photo(s, 'Mounds', 'EventDone', 'Six graves in the snow, patterned with dots. The shutter clicks loud as a shot.'), { label: 'Leave them', to: 'EventDone' }],
   });
   s.test('EventMoundsDig', 'The snow is packed hard as brick. Test {strength}.', 'EventMoundsDug', 'EventMoundsHard');
-  s.event('EventMoundsHard', { text: 'Your spade rings off it. You can try again with another action.', buttons: [{ to: 'EventHud' }] });
+  s.event('EventMoundsHard', { text: 'Your spade rings off it. You can try again with another action.', buttons: [{ to: 'EventDone' }] });
   s.event('EventMoundsDug', {
     ops: 'moundsDug,=,1 Understanding,+,1 Nerve,-,1', audio: 'AudioNegativeStory',
     text: `One of the six damaged specimens lies inside, laid straight, its broken parts gathered beside it.
@@ -251,14 +254,14 @@ The drift is gone. Everything within fifty miles heard it.`,
 It has not been thrown in a hole. It has been <b>buried</b> — with the care one gives one's own dead.
 
 Danforth says nothing for a long time. <b>Understanding +1.</b> (Danforth's Nerve −1.)`,
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
   s.token('TokenTracks', 'TokenInteract', s.at('TileMounds', 0.8, 0.75), {
     text: 'The snow west of the mounds is scoured, but here and there something shows through the drift.',
-    buttons: [{ label: 'Read the ground', to: 'EventTracks' }, { label: 'Leave it', to: 'EventHud' }],
+    buttons: [{ label: 'Read the ground', to: 'EventTracks' }, { label: 'Leave it', to: 'EventDone' }],
   });
   s.test('EventTracks', 'Drifting snow has half filled whatever was here. Test {observation}.', 'EventTracksFound', 'EventTracksLost');
-  s.event('EventTracksLost', { text: 'Wind-ripples, nothing more. Look again with another action.', buttons: [{ to: 'EventHud' }] });
+  s.event('EventTracksLost', { text: 'Wind-ripples, nothing more. Look again with another action.', buttons: [{ to: 'EventDone' }] });
   s.event('EventTracksFound', {
     remove: 'TokenTracks', ops: 'tracksFound,=,1', audio: 'AudioImportant1',
     text: `Sledge runners, three sets of them, heading west-northwest toward the black range. Beside them, prints that no boot made: <b>broad, triangular, five-toed paddles</b>.
@@ -266,7 +269,7 @@ Danforth says nothing for a long time. <b>Understanding +1.</b> (Danforth's Nerv
 And one set of dog prints, and the scuffs of a man's boots being dragged.
 
 <b>You know which way they went.</b>`,
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
 
   // ── Explore: Pabodie's bore and the fossil cavern
@@ -276,12 +279,12 @@ And one set of dog prints, and the scuffs of a man's boots being dragged.
   s.event('EventBoreReveal', {
     add: ['TileBore', 'TokenBore', 'TokenExpCavern'], remove: 'TokenExpBore', audio: 'AudioStoneOpen1',
     text: 'Place {c:TileBore}.\n\nA ladder of lashed rods goes down the shaft into a limestone passage. Your lantern finds prints in the walls.',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
   s.token('TokenBore', 'TokenInteract', s.at('TileBore', 0.3, 0.5), {
     customImage: 'img/TokenDerrick.png',
     text: 'The triangular prints Lake radioed about, pressed into rock a thousand million years old. The same shape as the tracks in the snow.',
-    buttons: [photo(s, 'Prints', 'EventHud', 'The flashpowder goes off; for an instant the prints stand out sharp as yesterday\'s.'), { label: 'Leave them', to: 'EventHud' }],
+    buttons: [photo(s, 'Prints', 'EventDone', 'The flashpowder goes off; for an instant the prints stand out sharp as yesterday\'s.'), { label: 'Leave them', to: 'EventDone' }],
   });
   s.token('TokenExpCavern', 'TokenExplore', s.door('TileBore', 'TileCavern'), {
     text: 'The passage opens into the cavern where Lake found them.', buttons: [{ label: 'Go in', to: 'EventCavernReveal' }],
@@ -289,20 +292,20 @@ And one set of dog prints, and the scuffs of a man's boots being dragged.
   s.event('EventCavernReveal', {
     add: ['TileCavern', 'TokenSoapstones'], remove: 'TokenExpCavern', audio: 'AudioRevealTile1',
     text: 'Place {c:TileCavern}.\n\nStalactites hacked away; niches in the limestone where fourteen bodies lay for fifty million years. It is warmer down here.',
-    buttons: [{ to: ['EventSpecimenAppearsCavern', 'EventHud'] }],
+    buttons: [{ to: ['EventSpecimenAppearsCavern', 'EventDone'] }],
   });
   s.token('TokenSoapstones', 'TokenInteract', s.at('TileCavern', 0.3, 0.5), {
     customImage: 'img/TokenSoapstone.png',
     text: 'Green soapstones, star-shaped, set in the niches like grave goods. Each is covered in groups of tiny dots.',
-    buttons: [{ label: 'Study the dots', to: 'EventSoapstones' }, { label: 'Leave them', to: 'EventHud' }],
+    buttons: [{ label: 'Study the dots', to: 'EventSoapstones' }, { label: 'Leave them', to: 'EventDone' }],
   });
   s.test('EventSoapstones', 'Test {lore}.', 'EventSoapstonesPass', 'EventSoapstonesFail');
   s.event('EventSoapstonesPass', {
     remove: 'TokenSoapstones', ops: 'Understanding,+,1 dotClue2,=,1', audio: 'AudioImportant2',
     text: 'The groups repeat. Ones, twos, up to fives, never more — <b>they count in fives</b>. It is a number system, and someone carved it as carefully as a signpost. <b>Understanding +1.</b>',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
-  s.event('EventSoapstonesFail', { text: 'The patterns crawl when you stare at them. Suffer 1 horror.', buttons: [{ to: 'EventHud' }] });
+  s.event('EventSoapstonesFail', { text: 'The patterns crawl when you stare at them. Suffer 1 horror.', buttons: [{ to: 'EventDone' }] });
 
   // ── The ninth specimen: lies in one of three places (specLoc), thaws a round after it is found
   const specimenPlaces: Array<[string, string, number, [number, number]]> = [
@@ -316,12 +319,12 @@ And one set of dog prints, and the scuffs of a man's boots being dragged.
       text: `Under a frozen tarpaulin: a ninth specimen. It is not on Lake's list. Unlike the six in the snow, it is whole — and the frost on its ridges is beading into water.\n\nExposure makes no difference to it. Warmth does.`,
       buttons: [
         { label: 'Study it', to: 'EventSpecimenStudy', cond: t('specStudied', '==', 0) },
-        photo(s, `Specimen${place}`, 'EventHud', 'Five ridges, folded wings, the starfish head tucked down like a sleeping bird\'s.'),
+        photo(s, `Specimen${place}`, 'EventDone', 'Five ridges, folded wings, the starfish head tucked down like a sleeping bird\'s.'),
         { label: 'Burn it (−1 petrol)', to: 'EventSpecimenBurn', cond: t('Fuel', '>=', 1) },
-        { label: 'Leave it', to: 'EventHud' },
+        { label: 'Leave it', to: 'EventDone' },
       ],
     });
-    s.jump(`EventSpecimenAppears${place}`, 'EventHud', {
+    s.jump(`EventSpecimenAppears${place}`, 'EventDone', {
       tests: t('specLoc', '==', n), add: `TokenSpecimen${place}`, ops: 'specPlaced,=,1 specRound,=,#round',
     });
   }
@@ -329,9 +332,9 @@ And one set of dog prints, and the scuffs of a man's boots being dragged.
   s.event('EventSpecimenStudyPass', {
     ops: 'Understanding,+,1',
     text: 'The tissue gives under your thumb like something asleep, not dead. Lake\'s <i>Elder Ones</i> were not fossils. They were <b>hibernating</b>. <b>Understanding +1.</b>',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
-  s.event('EventSpecimenStudyFail', { text: 'One of the eye-stalks twitches. You are almost sure it twitched. Suffer 1 horror.', buttons: [{ to: 'EventHud' }] });
+  s.event('EventSpecimenStudyFail', { text: 'One of the eye-stalks twitches. You are almost sure it twitched. Suffer 1 horror.', buttons: [{ to: 'EventDone' }] });
   s.event('EventSpecimenBurn', {
     remove: SPECIMEN_TOKENS, ops: 'Fuel,-,1 Mercy,=,0 specDone,=,1 Nerve,-,1', audio: 'AudioSpell3',
     text: `Petrol, a match. The flame takes slowly on the leathery hide, then all at once.
@@ -339,7 +342,7 @@ And one set of dog prints, and the scuffs of a man's boots being dragged.
 It does not scream. It <b>pipes</b>: a thin, fluting whistle that climbs the scale, and climbs, and stops.
 
 Danforth is sick in the snow. (Danforth's Nerve −1.)`,
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
 
   // It thaws at the end of the round after it was found (never before round 3)
@@ -358,7 +361,7 @@ The starfish head unfurls. Five red-irised eyes swivel on their stalks and find 
 <b>The Elder Thing is awake.</b> It is in {c:${tile}}.`,
       buttons: [{ label: 'Stand your ground', to: `SpawnET${place}` }],
     });
-    s.spawn(`SpawnET${place}`, 'CustomMonsterElderThing', { at: pos, buttons: [{ to: 'EventHud' }] });
+    s.spawn(`SpawnET${place}`, 'CustomMonsterElderThing', { at: pos, buttons: [{ to: 'EventDone' }] });
   }
 
   // ── The Elder Thing: curious, not cruel, until it is hurt
@@ -401,7 +404,7 @@ The starfish head unfurls. Five red-irised eyes swivel on their stalks and find 
     text: `You step aside. It glides past you, close enough to touch, and out into the snow; then the wings open fully and it is gone into the wind, flying west.
 
 Danforth lets out a breath he has been holding for a minute. <i>"It could have killed us. It didn't want to."</i> <b>Understanding +1.</b> Remove the Elder Thing.`,
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
   for (const [place] of specimenPlaces) {
     s.jump(`EventETDefeated${place}`, 'EventETDies', { trigger: `DefeatedSpawnET${place}` });
@@ -411,23 +414,23 @@ Danforth lets out a breath he has been holding for a minute. <i>"It could have k
     text: `It dies slowly, folding in on itself, and at the last it pipes — a thin fluting whistle up and down the scale — like a word in a language made for five throats.
 
 Up close, its body is a marvel. Danforth sketches it with a shaking hand. <b>Understanding +1.</b>`,
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
 
   // ── Leaving: the plane, once the tracks are found
   s.token('TokenPlane', 'TokenInteract', s.at('TileHangar', 0.5, 0.45), {
     customImage: 'img/TokenPlane.png', size: 'huge',
     text: 'The plane waits, engine warm. West lies the range.',
-    buttons: [{ label: 'Board the plane', to: ['EventBoardReady', 'EventBoardNoTracks'] }, { label: 'Not yet', to: 'EventHud' }],
+    buttons: [{ label: 'Board the plane', to: ['EventBoardReady', 'EventBoardNoTracks'] }, { label: 'Not yet', to: 'EventDone' }],
   });
   s.event('EventBoardNoTracks', {
     text: 'Fly where? Someone took three sledges, Gedney and a dog out of this camp. Until you know which way they went, the range is five hundred miles of wrong directions.',
-    buttons: [{ to: 'EventHud' }],
+    buttons: [{ to: 'EventDone' }],
   });
   s.event('EventBoardReady', {
     tests: t('tracksFound', '==', 1),
     text: 'The mechanic swings the propeller. All investigators must be in {c:TileHangar} to board.\n\nWhatever you have not found here, you will not find now.',
-    buttons: [{ label: 'Take off', to: 'EventAct1End' }, { label: 'Wait', to: 'EventHud' }],
+    buttons: [{ label: 'Take off', to: 'EventAct1End' }, { label: 'Wait', to: 'EventDone' }],
   });
 
   // ── Danforth's thoughts in act I, most urgent first

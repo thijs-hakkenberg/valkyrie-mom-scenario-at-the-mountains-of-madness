@@ -7,23 +7,14 @@ quest.synopsys,"Antarctica, 1931. Lake's camp has gone silent. Fly west, over th
 quest.description,"The relief party of the Miskatonic University Expedition flies to Lake's silent camp, follows a trail over an unknown range into a dead city of the Old Ones, learns their history from the carvings, and runs from what even they feared. Three acts: the camp, the city, the abyss. After H. P. Lovecraft's novella.\n\nRequires the base game, Path of the Serpent, and Recurring Nightmares."
 quest.authors,"Thijs Hakkenberg, with Claude. After H. P. Lovecraft (1936)."
 quest.authors_short,Thijs Hakkenberg
-UIHud.button1,|||<align="left"><b>EXPOSURE</b>  {var:Cold} / 10\n<b>PETROL</b>  {var:Fuel}\n<b>UNDERSTANDING</b>  {var:Understanding}\n<b>DANFORTH'S NERVE</b>  {var:Nerve}\n<size=75%><i>Tap: light the primus stove</i></size></align>|||
-UIHud.uitext,|||<align="left"><b>EXPOSURE</b>  {var:Cold} / 10\n<b>PETROL</b>  {var:Fuel}\n<b>UNDERSTANDING</b>  {var:Understanding}\n<b>DANFORTH'S NERVE</b>  {var:Nerve}\n<size=75%><i>Tap: light the primus stove</i></size></align>|||
-UIHud.text,.
-UIDanforth.button1,Ask Danforth
-UIDanforth.uitext,Ask Danforth
-UIDanforth.text,.
-EventHud.text,.
-EventHudShow.text,.
-EventHudAfterTurn.text,.
-EventHudOn.text,.
-EventHudOff.text,.
+EventDanforthMenu.button1,Ask what he thinks
+EventDanforthMenu.button2,"Light the primus stove (−1 petrol, Exposure −3)"
+EventDanforthMenu.button3,Carry on
+EventDanforthMenu.text,"Danforth looks up from the expedition log he keeps for Dyer.\n\n<b>Exposure</b> {var:Cold} / 10   ·   <b>Petrol</b> {var:Fuel} <size=80%>(the flight home needs 3)</size>\n<b>Understanding</b> {var:Understanding}   ·   <b>Evidence</b> {var:Photos}   ·   <b>His nerve</b> {var:Nerve}"
+EventDone.text,.
 EventColdClampHigh.text,.
 EventColdClampLow.text,.
 EventColdSettle.text,.
-EventPrimus.button1,Burn a can of petrol (Exposure −3)
-EventPrimus.button2,Save the petrol
-EventPrimus.text,"The primus stove hisses into a blue flame. Lighting it takes an action from the investigator whose turn it is.\n\nExposure <b>{var:Cold}</b> / 10 · Petrol <b>{var:Fuel}</b>"
 EventPrimusBurn.button1,{qst:CONTINUE}
 EventPrimusBurn.text,"Hands held to the flame, the party feels the blood return to their fingers. Every can burned here is a can the plane will not have."
 EventDanforthBroken.button1,{qst:CONTINUE}
@@ -61,11 +52,12 @@ EventRadio2.text,|||"11:30 P.M. Attention, Dyer, Pabodie, Douglas. Matter of hig
 EventRadio3.button1,{qst:CONTINUE}
 EventRadio3.text,|||"Job now to get fourteen huge specimens to camp. Got to dissect one of these things before we take any rest. Wind rising from the range. Dogs frantic. Will report at—"\n\n<i>The rest of the slip is scribbled over: static, static, static.</i>\n\n<size=85%>Margin: <b>trim — ?</b> (McTighe could not make it out.)</size>|||
 EventSilence.button1,Fly to Lake's camp
-EventSilence.text,"No word came at the agreed hour, nor the next. By morning McTighe had tried every band he knew.\n\nProfessor Dyer will not wait. The relief party flies to Lake's camp: you, a mechanic to nurse the engine, and young Danforth, the graduate student who has read the <i>Necronomicon</i> in the university library and will not say what he found there.\n\n<i>Danforth sits in the lower left corner of the screen: click him for his thoughts, once each round. The panel in the upper left tracks the cold, your petrol, and what you have come to understand. Click it to light the primus stove.</i>"
+EventSilence.text,"No word came at the agreed hour, nor the next. By morning McTighe had tried every band he knew.\n\nProfessor Dyer will not wait. The relief party flies to Lake's camp: you, a mechanic to nurse the engine, and young Danforth, the graduate student who has read the <i>Necronomicon</i> in the university library and will not say what he found there.\n\n<i>Danforth's token travels with the party. Click him to read the expedition log: the cold, your petrol, and what you have come to understand. He will share his thoughts once each round, and he carries the primus stove.</i>"
 EventCluesSmallParty.button1,{qst:CONTINUE}
 EventCluesSmallParty.text,|||McTighe presses a flask of whiskey on you at the plane. "One more thing. Lake always ran his trim high — five, maybe six. For what it's worth."|||
 TokenInvestigators.button1,{qst:CONTINUE}
 TokenInvestigators.text,
+TokenDanforthCamp.text,.
 EventAct1Setup.button1,Step out into the wind
 EventAct1Setup.text,"The plane skids to a halt on hard-packed snow beside what is left of Lake's camp. The engine ticks as it cools. Nothing else moves.\n\nPlace {c:TileCamp}. Place all investigators on the start space.\n\n<i>The wind has torn the tents to rags and the dogs' snow-walled corral is breached. Of Lake's eleven men there is no sign — not yet.</i>"
 EventAct1Begin.text,.

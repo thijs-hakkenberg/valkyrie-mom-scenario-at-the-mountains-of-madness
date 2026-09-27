@@ -45,18 +45,18 @@ Intensity 10 |                                               ████ ▒
 
 | System | Variable | Shown as | What it does |
 |---|---|---|---|
-| **Exposure (Cold)** | `Cold` 0–10 | UI thermometer (5 image states, swapped by events) | +1 each Mythos, +1–2 on gale events. At 3, 6 and 9 a frostbite event deals damage or horror. At 10, 2 damage per investigator every round. Heat: camp stove, plane cabin, and **the warm air rising from the abyss** (as in the book), so the cold pushes players *down*, toward the shoggoth. |
-| **Petrol (Fuel)** | `Fuel` | Quest item "Petrol cans" + counter in inspect text | Spent on warmth (−2 Cold), firebombs vs. the shoggoth, safe-flight choices. Takeoff needs `Fuel >= 3`. A resource dilemma through the whole game. |
+| **Exposure (Cold)** | `Cold` 0–10 | Danforth's expedition log (his token) and the cold effects | +1 each Mythos, +1–2 on gale events. At 3, 6 and 9 a frostbite event deals damage or horror. At 10, 2 damage per investigator every round. Heat: camp stove, plane cabin, and **the warm air rising from the abyss** (as in the book), so the cold pushes players *down*, toward the shoggoth. |
+| **Petrol (Fuel)** | `Fuel` | Danforth's expedition log | Spent on warmth (−2 Cold), firebombs vs. the shoggoth, safe-flight choices. Takeoff needs `Fuel >= 3`. A resource dilemma through the whole game. |
 | **Understanding** | `Understanding` 0–8 | Gained from carvings, photos and Danforth | At 3, the Elder Things turn neutral. At 5, "Mimic the piping" works vs. the shoggoth. Also changes the ending. |
 | **Tekeli-li clock** | `Piping` (hidden) | Audio/text cues at 4, 8 and 12 | Rises with rounds and loud actions (dynamite, gunfire choices, failed stealth). Sets the shoggoth's start distance and phase-1 health. |
-| **Danforth's Nerve** | `Nerve` 3 | Companion quest item with `inspect=` | Once per round: "Ask Danforth" gives a puzzle or lore hint for −1 Nerve. At 0 he breaks: hints stop, and the epilogue changes. |
+| **Danforth's Nerve** | `Nerve` 5 | Danforth's token: his portrait travels with the party; click for the log, his thoughts and the primus stove | Once per round: "Ask Danforth" gives a puzzle or lore hint for −1 Nerve. At 0 he breaks: hints stop, and the epilogue changes. |
 | **Evidence** | `Photos` | Camera starting item | Photographing carvings, specimens and the city adds Evidence. The ending depends on it. |
 | **Mercy** | `Mercy` flag | — | Set if the Act I specimen is spared. It unlocks the Act III sacrifice. |
 
 ## Prologue (≈5 min) — "Silence from the Westward Camp"
 
 - **Plot device:** Lake's last radio messages, and then silence.
-- **Mechanics:** full-screen intro cutscene UI (art + text), then **three handouts** (McTighe's shorthand radio slips, shown as UI images). Clues and starting items are handed out by party size (silent events with `#heroes` vartests). Starting items: Camera, Lantern, Danforth (companion item), Petrol cans (`Fuel = 4 + #heroes/2`).
+- **Mechanics:** full-screen intro cutscene UI (art + text), then **three handouts** (McTighe's shorthand radio slips, shown as UI images). Clues and starting items are handed out by party size (silent events with `#heroes` vartests). Starting items: Carbine Rifle, Kerosene Lantern, Survival Pack; Petrol 5. Two-player parties also get Whiskey and a hint.
 - The slips hold a hidden clue: Lake's message gives the specimen count ("fourteen… eight perfect"). Players will need it in Act I.
 
 ## ACT I — "Lake's Camp" (≈40 min, rounds 1–6, intensity 3→5)
@@ -168,3 +168,7 @@ Intro cutscene UI · handouts · clue distribution by party size · starting and
 - **Tokens (512²):** stove, drill derrick, star mound, sledge, penguin, dot glyph.
 - **Endings:** 4.
 
+
+## Design notes from playtesting
+
+- **No UI stays on the board.** Valkyrie's next phase button does nothing while any UI element is on the board, so an always-on status panel froze the game in the investigator phase. Danforth became a token instead, and his dialog shows the numbers (`{var:}` is filled in each time a dialog opens). ValkyrieMCP 2.3.3 warns about this (`ui-lifetime`).
