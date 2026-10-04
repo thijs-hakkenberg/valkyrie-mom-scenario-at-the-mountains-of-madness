@@ -22,7 +22,7 @@ EventDanforthBroken.text,|||Danforth does not look up. He is drawing the same sh
 EventDanforthResting.button1,{qst:CONTINUE}
 EventDanforthResting.text,"Danforth is still turning over your last question, lips moving silently. <i>(Danforth can be asked once each round.)</i>"
 EventDanforthIdle.button1,{qst:CONTINUE}
-EventDanforthIdle.text,|||"I don't know," Danforth admits, pushing his spectacles up with a gloved finger. "Look around more. There is always something we've not seen."|||
+EventDanforthIdle.text,|||I don't know," Danforth admits, pushing his spectacles up with a gloved finger. "Look around more. There is always something we've not seen.|||
 EventEndRoundReset.text,.
 EventCold10.button1,{qst:CONTINUE}
 EventCold10.text,"<b>FREEZING.</b> Breath crystallises on beards and scarves; thought itself grows slow. Each investigator suffers 2 damage and 1 horror.\n\n<i>Get warm: a heat source, or the primus stove.</i>"
